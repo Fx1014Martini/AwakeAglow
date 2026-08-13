@@ -1,0 +1,8 @@
+[
+  { "id": "morning-focus", "scene": "晨间专注", "mode": "coffee", "desc": "清醒开始一天，低苦醇厚", "icon": "cup" },
+  { "id": "afternoon-break", "scene": "午后小憩", "mode": "coffee", "desc": "柔和奶香，不抢注意力", "icon": "cup" },
+  { "id": "weekend-brew", "scene": "周末手冲", "mode": "coffee", "desc": "花时间理解风味层次", "icon": "cup" },
+  { "id": "social-night", "scene": "社交夜晚", "mode": "cocktail", "desc": "酸甜平衡，适合举杯", "icon": "wine" },
+  { "id": "solo-relax", "scene": "独处微醺", "mode": "cocktail", "desc": "克制烈感，慢慢品", "icon": "wine" },
+  { "id": "party-fresh", "scene": "派对清爽", "mode": "cocktail", "desc": "高球长饮，清爽不腻", "icon": "wine" }
+]

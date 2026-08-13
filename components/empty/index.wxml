@@ -1,0 +1,9 @@
+<!-- 空状态：可选图标 + 文案 + 可选按钮（原型 empty-state 无图标，icon 留空即不渲染）。点击按钮触发 action -->
+<view class="empty">
+  <view wx:if="{{icon}}" class="empty-icon" aria-hidden="true">{{icon}}</view>
+  <text class="empty-title">{{title}}</text>
+  <text wx:if="{{desc}}" class="empty-desc">{{desc}}</text>
+  <view wx:if="{{btnText}}" class="empty-btn" hover-class="empty-btn-hover" hover-stay-time="80" bindtap="onAction" role="button">
+    {{btnText}}
+  </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "app-icon": "/components/icon/index",
+    "brand-logo": "/components/brand-logo/index"
+  }
+}

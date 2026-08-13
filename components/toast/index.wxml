@@ -1,0 +1,5 @@
+<!-- 轻提示。visible 控制渲染；show 为 true 时入场动画 -->
+<view class="toast {{show ? 'toast-show' : ''}}" hidden="{{!visible}}" aria-live="polite">
+  <text wx:if="{{icon}}" class="toast-icon" aria-hidden="true">{{icon}}</text>
+  <text class="toast-text">{{content}}</text>
+</view>

@@ -1,0 +1,4 @@
+<!-- 图标组件：用 <image> 引用 PNG（WXML 不支持 svg/path/circle 标签，见 commit b68e36f）。
+     变体由 mode 决定：muted(灰色默认) / coffee / cocktail(跟随主题)。
+     状态图标（如 heart 收藏）通过 mode 切换：激活时传主题 mode，未激活传 'muted'。 -->
+<image class="app-icon" src="{{src}}" mode="aspectFit" style="width:{{size}}rpx;height:{{size}}rpx" aria-hidden="true" />

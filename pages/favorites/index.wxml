@@ -1,0 +1,41 @@
+<view class="page-root theme-{{mode}}" data-mode="{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{false}}" />
+  <xx-mode-switch mode="{{mode}}" bind:change="onSwitchMode" />
+  <view class="page page-enter favorites-page">
+    <view class="favorite-title">
+      <text class="latin">MY COLLECTION</text>
+      <text class="serif">我的收藏</text>
+      <text>留下真正适合你的风格，不建立无意义的点赞列表。</text>
+    </view>
+    <view class="favorite-stats surface-card">
+      <view><text class="number">{{favorites.length}}</text><text>当前收藏</text></view>
+      <view><text class="number">{{suggestions.length}}</text><text>待探索</text></view>
+    </view>
+    <view wx:if="{{loading}}" class="favorite-grid">
+      <view wx:for="{{[1,2,3]}}" wx:key="*this" class="skeleton-card"></view>
+    </view>
+    <view wx:elif="{{!favorites.length}}" class="empty-state">
+      <text class="empty-title">还没有收藏</text>
+      <text class="empty-desc">在首页、菜单或详情页点击爱心，喜欢的饮品会保存在这里。</text>
+      <view hover-class="is-tap" class="empty-action" bindtap="onGoMenu">去菜单看看</view>
+    </view>
+    <view wx:else class="favorite-grid">
+      <xx-drink-card wx:for="{{favorites}}" wx:key="id" item="{{item}}" mode="{{mode}}" variant="compact" favorite="{{true}}" bind:open="onDrinkOpen" bind:favorite="onDrinkFavorite" />
+    </view>
+    <view class="section-head">
+      <view><text class="section-head__title serif">猜你喜欢</text><text class="section-head__sub">根据当前模式推荐</text></view>
+      <view hover-class="is-tap" class="section-head__action" bindtap="onGoMenu">去菜单 ›</view>
+    </view>
+    <view wx:if="{{suggestions.length}}" class="favorite-grid">
+      <view wx:for="{{suggestions}}" wx:key="id" class="favorite-card" data-id="{{item.id}}" bindtap="onDrinkOpen" hover-class="is-tap">
+        <image class="favorite-card__img" src="{{item.imageUrl}}" mode="aspectFill" lazy-load="{{true}}" />
+        <view class="favorite-card__body">
+          <text class="favorite-card__name serif">{{item.nameZh}}</text>
+          <text class="favorite-card__en latin">{{item.nameEn}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="fav-suggestion-empty">暂时没有更多推荐</view>
+  </view>
+  <app-toast id="favToast" show="{{toastVisible}}" content="{{toastContent}}" bind:hide="onToastHide" />
+</view>

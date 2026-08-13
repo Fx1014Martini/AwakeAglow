@@ -1,0 +1,11 @@
+<view class="mode-switch theme-{{mode}}" role="tablist">
+  <view class="mode-switch__thumb {{mode === 'cocktail' ? 'is-right' : ''}}"></view>
+  <view class="mode-switch__item {{mode === 'coffee' ? 'is-active' : ''}}" data-mode="coffee" bindtap="onChange" hover-class="is-tap" role="tab" aria-selected="{{mode === 'coffee'}}">
+    <image src="/assets/icons/coffee-{{mode === 'coffee' ? 'coffee' : 'muted'}}.png" mode="aspectFit" />
+    <text>咖啡模式</text>
+  </view>
+  <view class="mode-switch__item {{mode === 'cocktail' ? 'is-active' : ''}}" data-mode="cocktail" bindtap="onChange" hover-class="is-tap" role="tab" aria-selected="{{mode === 'cocktail'}}">
+    <image src="/assets/icons/cocktail-{{mode === 'cocktail' ? 'cocktail' : 'muted'}}.png" mode="aspectFit" />
+    <text>微醺模式</text>
+  </view>
+</view>

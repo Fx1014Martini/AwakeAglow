@@ -1,0 +1,12 @@
+<!-- 筛选/标签 chip，支持选中态（active）。点击触发 change 事件 -->
+<view
+  class="chip {{active ? 'chip-active' : ''}} {{disabled ? 'chip-disabled' : ''}}"
+  hover-class="{{disabled ? 'none' : 'chip-hover'}}"
+  hover-stay-time="80"
+  bindtap="onTap"
+  aria-role="button"
+  aria-pressed="{{active}}"
+>
+  <text wx:if="{{active}}" class="chip-check" aria-hidden="true">✓</text>
+  <slot></slot>
+</view>

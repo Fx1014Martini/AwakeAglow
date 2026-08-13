@@ -1,0 +1,106 @@
+/**
+ * tokens.wxss — 设计 Token 基座（T2）。
+ * 继承自 xingxun-responsive-prototype/styles/tokens.css（设计真源 DESIGN.md §3-7）。
+ * 双主题：咖啡暖纸（默认）/ 鸡尾酒深莓。
+ * 小程序中 page 即根容器，故直接挂到 page（微信 WXSS 不识别 :root）。
+ */
+page {
+  color-scheme: light;
+
+  /* 字体族 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Songti SC", STSong, "Noto Serif CJK SC", SimSun, serif;
+  --font-latin: Georgia, "Times New Roman", serif;
+  --font-number: "DIN Alternate", "SF Pro Display", Arial, sans-serif;
+
+  /* 视口与安全区 */
+  --viewport-design-width: 390;
+  --viewport-design-height: 844;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* 空间 */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+
+  /* 圆角 */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* 动效 */
+  --motion-fast: 160ms;
+  --motion-normal: 260ms;
+  --motion-slow: 420ms;
+  --ease-standard: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.2, 1.25, .4, 1);
+
+  /* 咖啡主题 token 组 */
+  --coffee-bg: #f8f2e9;
+  --coffee-bg-2: #efe0cd;
+  --coffee-surface: rgba(255, 253, 249, .92);
+  --coffee-surface-strong: #fffdf9;
+  --coffee-surface-muted: #f5eadc;
+  --coffee-text: #342216;
+  --coffee-text-2: #806b5a;
+  --coffee-border: rgba(113, 75, 38, .16);
+  --coffee-primary: #9c6118;
+  --coffee-primary-2: #d5a34e;
+  --coffee-accent: #f0c879;
+  --coffee-shadow: 0 18px 46px rgba(104, 63, 21, .14);
+  --coffee-shadow-soft: 0 8px 24px rgba(104, 63, 21, .09);
+
+  /* 鸡尾酒主题 token 组 */
+  --cocktail-bg: #080706;
+  --cocktail-bg-2: #16100d;
+  --cocktail-surface: rgba(21, 17, 13, .92);
+  --cocktail-surface-strong: #17120f;
+  --cocktail-surface-muted: #211916;
+  --cocktail-text: #f1dfbd;
+  --cocktail-text-2: #a89174;
+  --cocktail-border: rgba(210, 167, 91, .24);
+  --cocktail-primary: #d4a75b;
+  --cocktail-primary-2: #8b2634;
+  --cocktail-accent: #741d2a;
+  --cocktail-shadow: 0 20px 52px rgba(0, 0, 0, .48);
+  --cocktail-shadow-soft: 0 10px 30px rgba(0, 0, 0, .35);
+
+  /* 语义色（原型 tokens.css 继承） */
+  --danger: #a93b3b;
+  --success: #486c47;
+  --focus: #3c82f6;
+
+  /* --xx-* 业务语义别名（字体/间距/圆角/动效，组件统一读 --xx-*） */
+  --xx-font-sans: var(--font-sans);
+  --xx-font-serif: var(--font-serif);
+  --xx-font-latin: var(--font-latin);
+  --xx-font-number: var(--font-number);
+  --xx-page-gutter: 38rpx;
+  --xx-section-gap: 40rpx;
+  --xx-card-gap: 20rpx;
+  --xx-radius-xs: var(--radius-xs);
+  --xx-radius-sm: var(--radius-sm);
+  --xx-radius-md: var(--radius-md);
+  --xx-radius-lg: var(--radius-lg);
+  --xx-radius-xl: var(--radius-xl);
+  --xx-radius-pill: var(--radius-pill);
+  --xx-motion-fast: var(--motion-fast);
+  --xx-motion-normal: var(--motion-normal);
+  --xx-motion-slow: var(--motion-slow);
+  --xx-ease: var(--ease-standard);
+}

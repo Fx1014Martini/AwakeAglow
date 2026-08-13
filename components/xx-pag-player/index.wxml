@@ -1,0 +1,17 @@
+<!-- PAG 播放器：usePag 时渲染 PAGView，否则降级为静态图 + 呼吸动效 -->
+<view class="pag-host">
+  <block wx:if="{{usePag && !loadFailed}}">
+    <!-- 真实 PAG 运行时接入后替换为 <pag-view src="..." /> -->
+    <view class="pag-canvas">PAG</view>
+  </block>
+  <block wx:else>
+    <image
+      wx:if="{{fallbackImage}}"
+      class="pag-fallback-img"
+      src="{{fallbackImage}}"
+      mode="aspectFill"
+      lazy-load="{{true}}"
+    />
+    <view wx:else class="pag-placeholder"></view>
+  </block>
+</view>

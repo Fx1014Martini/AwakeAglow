@@ -1,0 +1,2 @@
+<!-- 复用 V8 已验收的主题品牌资产，避免不同页面 Logo 线宽和字距漂移。 -->
+<image class="brand-logo" style="width:{{width}}rpx;height:{{width * 96 / 310}}rpx" src="/assets/logo/logo-{{mode}}.png" mode="aspectFit" aria-label="醒醺" />

@@ -1,0 +1,2 @@
+PAG placeholder: overlay
+Replace with a real libpag animation file (generated via PAG Designer / AE + PAG export plugin). See miniprogram-v2/lib/pag/index.ts.

@@ -1,0 +1,80 @@
+/* 对比页样式（对齐原型 app.css .compare-* + templates.js renderCompare，1px≈1.923rpx） */
+.compare-shell { padding-bottom: 0; }
+.compare-page { padding-bottom: calc(131rpx + env(safe-area-inset-bottom)); }
+
+/* 标题（原型 .compare-title：居中 + h1 28px serif + p 10px text2） */
+.compare-title { padding: 0 0 27rpx; display: flex; flex-direction: column; align-items: center; }
+.compare-title text:first-child { font-size: 54rpx; color: var(--xx-text); letter-spacing: 1rpx; }
+.compare-title text:last-child { margin-top: 10rpx; color: var(--xx-text2); font-size: 19rpx; }
+
+/* 双卡（原型 .compare-products：1fr 34px 1fr 三列 grid） */
+.compare-products { display: grid; grid-template-columns: 1fr 65rpx 1fr; align-items: center; gap: 10rpx; }
+
+/* 产品卡（原型 .compare-product：min-height:218px + padding:12px + border-radius:18px） */
+.compare-product { position: relative; overflow: hidden; min-height: 419rpx; padding: 23rpx; border-radius: 35rpx; border: 1rpx solid var(--xx-border); background: var(--xx-surface); }
+
+/* 产品图（原型 .compare-product img：height:112px + border-radius:12px） */
+.compare-product image { width: 100%; height: 215rpx; object-fit: cover; border-radius: 23rpx; }
+
+/* 产品名（原型 h3：serif 17px 500） */
+.compare-product > .serif { display: block; margin: 17rpx 0 2rpx; font-size: 33rpx; font-weight: 500; color: var(--xx-text); }
+
+/* 英文名（原型 .en：latin 10px text2） */
+.compare-product > .latin { display: block; color: var(--xx-text2); font-size: 19rpx; }
+
+/* 简介（原型 p：8px text2 line-height:1.45） */
+.compare-product__copy { display: block; margin-top: 13rpx; color: var(--xx-text2); font-size: 15rpx; line-height: 1.45; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+
+/* VS 徽标（原型 .vs-badge：36px 圆形 + text 背景 + bg 文字 + latin 700） */
+.compare-vs { display: grid; place-items: center; width: 69rpx; height: 69rpx; border-radius: 50%; background: var(--xx-text); color: var(--xx-bg); font-weight: 700; font-size: 21rpx; z-index: 2; }
+
+/* 雷达卡片（原型 .compare-radar：margin-top:12px + padding:12px + .card） */
+.compare-radar { margin-top: 23rpx; padding: 23rpx; border-radius: 35rpx; border: 1rpx solid var(--xx-border); background: var(--xx-surface); box-shadow: var(--xx-shadow-soft); }
+
+/* 图例 */
+.compare-legend { display: flex; justify-content: center; gap: 31rpx; padding: 8rpx 0 0; }
+.compare-legend > view { display: flex; align-items: center; gap: 8rpx; color: var(--xx-text2); font-size: 17rpx; }
+.compare-legend > view text:first-child { width: 15rpx; height: 15rpx; border-radius: 50%; }
+.legend-left { background: var(--xx-primary); }
+.legend-right { background: var(--xx-primary2); }
+
+/* 雷达图容器 */
+.radar-wrap { display: grid; place-items: center; min-height: 420rpx; padding: 15rpx 0; }
+
+/* 详细对比表（原型 .compare-table：margin-top:12px + overflow:hidden + .card） */
+.compare-table { margin-top: 23rpx; overflow: hidden; border-radius: 35rpx; border: 1rpx solid var(--xx-border); background: var(--xx-surface); box-shadow: var(--xx-shadow-soft); }
+
+/* 对比表标题（原型 h3：serif 16px + padding:13px 14px） */
+.compare-table__title { display: block; padding: 25rpx 27rpx; font-size: 31rpx; font-weight: 500; color: var(--xx-text); }
+
+/* 对比行（原型 .compare-row：1fr 94px 1fr + border-top + 9px + min-height:38px） */
+.compare-table__row { display: grid; grid-template-columns: 1fr 181rpx 1fr; border-top: 1rpx solid var(--xx-border); font-size: 17rpx; min-height: 73rpx; }
+.compare-table__row > text { display: grid; align-items: center; padding: 13rpx 15rpx; color: var(--xx-text); }
+.compare-table__row > text:nth-child(2) { text-align: center; justify-content: center; color: var(--xx-text2); background: var(--xx-surface-muted); }
+
+/* section-head（推荐结论标题） */
+.compare-section-head { margin: 31rpx 0 0; }
+
+/* 推荐结论（原型 .conclusion-grid：1fr 1fr + gap:10px + margin-top:12px） */
+.conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 19rpx; margin-top: 23rpx; }
+
+/* 结论卡（原型 .conclusion-card：padding:14px + text-align:center + .card） */
+.conclusion-card { padding: 27rpx; text-align: center; border-radius: 35rpx; border: 1rpx solid var(--xx-border); background: var(--xx-surface); box-shadow: var(--xx-shadow-soft); }
+
+/* 结论标题（原型 b：serif 17px block） */
+.conclusion-card > .serif { display: block; font-size: 33rpx; font-weight: 500; color: var(--xx-text); }
+
+/* 结论正文（原型 span：9px text2 line-height:1.45） */
+.conclusion-card > text:last-child { display: block; margin-top: 10rpx; color: var(--xx-text2); font-size: 17rpx; line-height: 1.45; }
+
+/* 窄屏适配 */
+@media (max-width: 360px) {
+  .compare-products { gap: 8rpx; }
+  .compare-product { min-height: 390rpx; padding: 19rpx; }
+  .compare-product image { height: 195rpx; }
+  .compare-vs { width: 60rpx; height: 60rpx; font-size: 19rpx; }
+}
+
+/* 骨架 */
+.compare-skeleton { height: 520rpx; border-radius: 30rpx; background: var(--xx-surface-muted); animation: compare-pulse 1.4s ease-in-out infinite; }
+@keyframes compare-pulse { 0%,100% { opacity: 1; } 50% { opacity: .55; } }

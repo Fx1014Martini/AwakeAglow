@@ -1,0 +1,19 @@
+<view class="page-root theme-{{mode}} compare-shell" data-mode="{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{true}}" />
+  <view wx:if="{{loading}}" class="compare-page"><view class="compare-skeleton"></view></view>
+  <view wx:elif="{{!left || !right}}" class="page compare-page compare-empty"><t-empty title="还不能开始对比" desc="请选择两款同模式饮品进行对比" /></view>
+  <view wx:else class="page page-enter compare-page">
+    <view class="compare-title"><text class="serif">产品对比</text><text>发现更适合你的那一杯</text></view>
+    <view class="compare-products">
+      <view class="compare-product compare-product--0" data-id="{{left.id}}" hover-class="is-tap" bindtap="onOpenDetail"><image src="{{left.posterUrl || left.imageUrl}}" mode="aspectFill"/><text class="serif">{{left.nameZh}}</text><text class="latin">{{left.nameEn}}</text><text class="compare-product__copy">{{left.intro}}</text></view>
+      <view class="compare-vs latin">VS</view>
+      <view class="compare-product compare-product--1" data-id="{{right.id}}" hover-class="is-tap" bindtap="onOpenDetail"><image src="{{right.posterUrl || right.imageUrl}}" mode="aspectFill"/><text class="serif">{{right.nameZh}}</text><text class="latin">{{right.nameEn}}</text><text class="compare-product__copy">{{right.intro}}</text></view>
+    </view>
+    <view class="compare-radar surface-card"><view class="section-head" style="margin-top:0"><view><text class="section-head__title serif">风味雷达图</text><text class="section-head__sub">{{left.nameZh}} 与 {{right.nameZh}}</text></view></view><view class="compare-legend"><view><text class="legend-left"></text><text>{{left.nameZh}}</text></view><view><text class="legend-right"></text><text>{{right.nameZh}}</text></view></view><view class="radar-wrap"><t-radar-chart metrics="{{radarMetrics}}" compareMetrics="{{radarCompareMetrics}}" size="{{260}}" mode="{{mode}}" /></view></view>
+    <view class="compare-table surface-card"><text class="compare-table__title serif">详细对比</text><view wx:for="{{rows}}" wx:key="key" class="compare-table__row"><text>{{item.left}}</text><text>{{item.label}}</text><text>{{item.right}}</text></view></view>
+    <view class="section-head compare-section-head"><view><text class="section-head__title serif">推荐结论</text></view></view>
+    <view class="conclusion-grid"><view class="conclusion-card conclusion-card--0"><text class="serif">{{conclusionLeftTitle}}</text><text>{{left.nameZh}}：{{left.intro}}</text></view><view class="conclusion-card conclusion-card--1"><text class="serif">{{conclusionRightTitle}}</text><text>{{right.nameZh}}：{{right.intro}}</text></view></view>
+  </view>
+  <view class="toast-wrap"><app-toast content="{{toastText}}" show="{{toastShow}}" bind:hide="onToastHide" /></view>
+  <custom-tab-bar selected="{{1}}" mode="{{mode}}" />
+</view>

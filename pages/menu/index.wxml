@@ -1,0 +1,37 @@
+<view class="page-shell theme-{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{false}}" />
+  <view class="page-content page-enter menu-page">
+    <xx-mode-switch mode="{{mode}}" bind:change="onSwitchMode" />
+
+    <view class="menu-search surface-card">
+      <image src="/assets/icons/search-{{mode}}.png" mode="aspectFit" />
+      <input value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearchConfirm" confirm-type="search" placeholder="{{searchPlaceholder}}" placeholder-class="menu-search__placeholder" />
+      <view hover-class="is-tap" wx:if="{{keyword}}" class="menu-search__clear" bindtap="onClearKeyword" aria-label="清空搜索">×</view>
+      <text wx:else class="menu-search__scan">⌗</text>
+    </view>
+
+    <view class="filter-panel surface-card {{filterPanelVisible ? 'is-expanded' : ''}}">
+      <view class="filter-panel__head">
+        <view class="filter-panel__title"><image src="/assets/icons/filter-{{mode}}.png" /><text class="serif">筛选条件</text></view>
+        <view><view hover-class="is-tap" bindtap="onResetFilters">重置 ↻</view><view hover-class="is-tap" bindtap="onToggleFilter">{{filterPanelVisible ? '⌃' : '⌄'}}</view></view>
+      </view>
+      <view wx:if="{{filterPanelVisible}}" class="filter-groups">
+        <view wx:for="{{filterGroups}}" wx:key="key" class="filter-group">
+          <text class="filter-group__label">{{item.label}}</text>
+          <view class="filter-group__options">
+            <view hover-class="is-tap" wx:for="{{item.options}}" wx:key="name" wx:for-item="option" class="tri-chip tri-state-{{option.state}}" data-key="{{item.key}}" data-option="{{option.name}}" bindtap="onTriFilter"><text wx:if="{{option.state === 'WANT'}}" class="tri-mark">✓</text><text wx:if="{{option.state === 'EXCLUDE'}}" class="tri-mark">×</text><text>{{option.name}}</text></view>
+          </view>
+        </view>
+      </view>
+      <view class="filter-summary"><text>已选条件：</text><text>{{appliedSummary || '暂无，点击标签循环「想要 → 排除 → 未选」'}}</text><view hover-class="is-tap" bindtap="onToggleFilter">{{filterPanelVisible ? '收起筛选⌃' : '展开筛选⌄'}}</view></view>
+    </view>
+
+    <view wx:if="{{mode === 'cocktail'}}" class="safety-banner">理性饮酒 · 未满 18 周岁请勿饮酒</view>
+    <view class="result-head"><text>找到 <text class="number">{{total}}</text> 款{{mode === 'coffee' ? '咖啡' : '鸡尾酒'}}</text><view class="result-head__actions"><view hover-class="is-tap" class="result-head__sort" bindtap="onToggleSort">{{sort === 'name' ? '名称' : '综合推荐'}}⌄</view><view hover-class="is-tap" class="result-head__compare {{compareMode ? 'is-active' : ''}}" bindtap="onToggleCompareMode">{{compareMode ? '退出对比' : '对比'}}</view></view></view>
+    <view wx:if="{{loading}}" class="menu-skeleton"><view wx:for="{{[1,2,3]}}" wx:key="*this" class="skeleton-card"></view></view>
+    <view wx:elif="{{!drinks.length}}" class="empty-state"><text class="empty-title">没有完全匹配的结果</text><text class="empty-desc">减少一个“想要”或取消部分排除条件</text><view hover-class="is-tap" class="secondary-button" bindtap="onResetFilters">清空筛选</view></view>
+    <view wx:else class="result-list"><xx-drink-card wx:for="{{drinks}}" wx:key="id" item="{{item}}" mode="{{mode}}" variant="list" favorite="{{item.favorite}}" showCompare="{{compareMode}}" inCompare="{{item.inCompare}}" bind:open="onDrinkOpen" bind:favorite="onDrinkFavorite" bind:compare="onDrinkCompare" /></view>
+  </view>
+  <view wx:if="{{compareMode}}" class="compare-bar theme-{{mode}} safe-bottom"><view><text>对比模式 · 已选 {{compareSelection.length}}/2</text><text>{{compareSelection.length === 2 ? '点击下方饮品卡选择，满两款可对比' : '点击下方饮品卡选择两款进行对比'}}</text></view><view hover-class="is-tap" class="{{compareSelection.length === 2 ? 'primary-button' : 'secondary-button'}}" bindtap="onGoCompare">{{compareSelection.length === 2 ? '开始对比 →' : '待选满 2 款'}}</view></view>
+  <app-toast content="{{toastText}}" show="{{toastShow}}" bind:hide="onToastHide" />
+</view>

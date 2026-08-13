@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "t-radar-chart": "/components/radar-chart/index",
+    "t-empty": "/components/empty/index",
+    "app-toast": "/components/toast/index"
+  },
+  "navigationBarTitleText": "产品对比",
+  "disableScroll": false
+}

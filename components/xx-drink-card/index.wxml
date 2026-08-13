@@ -1,0 +1,51 @@
+<view class="drink-card {{variant}}" data-id="{{item.id}}" bindtap="onOpen" hover-class="is-tap">
+  <block wx:if="{{variant === 'list'}}">
+    <image class="drink-card__photo" src="{{imageSrc}}" mode="aspectFill" binderror="onImgError" />
+    <view class="drink-card__body">
+      <view class="drink-card__title-line">
+        <text class="serif drink-card__name">{{item.nameZh}}</text>
+        <text class="latin drink-card__en">{{item.nameEn}}</text>
+      </view>
+      <text class="drink-card__intro">{{item.intro}}</text>
+      <view class="drink-card__tags" wx:if="{{item.tags && item.tags.length}}">
+        <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:if="{{index < 3}}">{{item}}</text>
+      </view>
+    </view>
+    <view class="drink-card__aside">
+      <view class="drink-card__score">
+        <text>推荐指数</text>
+        <text class="number">{{item.matchPercent || item.score || 0}}</text>
+      </view>
+      <view class="drink-card__favorite {{favorite ? 'is-active' : ''}}" catchtap="onFavorite" hover-class="is-tap">
+        <app-icon name="heart" size="{{29}}" mode="{{favorite ? mode : 'muted'}}" />
+      </view>
+      <view wx:if="{{showCompare}}" class="drink-card__compare {{inCompare ? 'is-selected' : ''}}" catchtap="onCompare" hover-class="is-tap">{{inCompare ? '✓' : '+ 对比'}}</view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <image class="drink-card__image" src="{{imageSrc}}" mode="aspectFill" binderror="onImgError" />
+    <view class="drink-card__overlay"></view>
+    <view class="drink-card__content">
+      <view wx:if="{{item.badge}}" class="drink-card__badge">
+        <text>{{item.badge}}</text>
+      </view>
+      <view class="drink-card__title-line">
+        <text class="serif drink-card__name">{{item.nameZh}}</text>
+        <text class="latin drink-card__en">{{item.nameEn}}</text>
+      </view>
+      <text class="drink-card__intro">{{item.intro}}</text>
+      <view class="drink-card__tags" wx:if="{{item.tags && item.tags.length}}">
+        <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:if="{{index < 5}}">{{item}}</text>
+      </view>
+      <view wx:if="{{variant === 'hero' || variant === 'hero-secondary'}}" class="drink-card__cta" wx:if="{{ctaText}}" catchtap="onCta" hover-class="is-tap">
+        <text>{{ctaText}}</text>
+        <view class="drink-card__cta-arrow">→</view>
+      </view>
+    </view>
+    <view class="drink-card__favorite {{favorite ? 'is-active' : ''}}" catchtap="onFavorite" hover-class="is-tap">
+      <app-icon name="heart" size="{{33}}" mode="{{favorite ? mode : 'muted'}}" />
+    </view>
+    <view wx:if="{{showCompare}}" class="drink-card__compare {{inCompare ? 'is-selected' : ''}}" catchtap="onCompare" hover-class="is-tap">{{inCompare ? '✓ 已选' : '+ 对比'}}</view>
+  </block>
+</view>

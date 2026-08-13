@@ -1,0 +1,10 @@
+<view class="page age-gate-page" data-mode="cocktail">
+  <view class="age-card">
+    <view class="age-mark">18+</view>
+    <view class="age-title">饮酒须理性</view>
+    <view class="age-desc">本页面包含鸡尾酒相关内容。请确认您已年满 18 周岁，并理性对待酒精饮品。</view>
+    <view class="age-warning">孕妇、服药、驾车及健康状况不适宜者请勿饮酒</view>
+    <view class="age-btn-primary" hover-class="is-tap" bindtap="onConfirmAge">我已成年，理性饮酒</view>
+    <view class="age-btn-secondary" hover-class="is-tap" bindtap="onDecline">返回咖啡</view>
+  </view>
+</view>

@@ -1,0 +1,84 @@
+<view class="page-shell theme-{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{false}}" />
+
+  <view class="page home-page page-enter">
+    <view class="home-intro">
+      <xx-mode-switch mode="{{mode}}" bind:change="onSwitchMode" />
+
+      <view class="eyebrow latin">{{eyebrow}}</view>
+      <view class="display-title serif">{{title}}</view>
+      <view class="lead">{{lead}}</view>
+
+      <view class="search-field">
+        <image class="search-field__icon" src="/assets/icons/search-{{mode}}.png" mode="aspectFit" />
+        <input class="search-field__input" value="{{keyword}}" placeholder="{{searchPlaceholder}}" placeholder-class="search-field__placeholder" bindinput="onSearchInput" bindconfirm="onSearchConfirm" confirm-type="search" />
+      </view>
+
+      <scroll-view class="chip-row home-chips" scroll-x enable-flex show-scrollbar="{{false}}">
+        <view class="chip {{(activeScene === item || (activeScene === '' && index === 0)) ? 'active' : ''}}" wx:for="{{scenes}}" wx:key="*this" data-scene="{{item}}" bindtap="onSceneChip" hover-class="is-tap">{{item}}</view>
+      </scroll-view>
+    </view>
+
+    <view class="section-head">
+      <view class="section-head__main">
+        <view class="section-head__title serif">为你推荐 ✦</view>
+        <view class="section-head__sub">{{recommendSub}}</view>
+      </view>
+      <view class="section-head__action" bindtap="onMoreRecommend" hover-class="is-tap">更多推荐 ›</view>
+    </view>
+
+    <view wx:if="{{loading}}" class="home-skeleton">
+      <view class="skeleton-card" style="min-height:481rpx;margin-bottom:42rpx;border-radius:var(--xx-radius-lg)"></view>
+      <view class="skeleton-card" style="min-height:296rpx;border-radius:var(--xx-radius-lg)"></view>
+    </view>
+    <view wx:elif="{{!featured || !featured.nameZh}}" class="empty-state">
+      <text class="empty-title">暂无推荐</text>
+      <text class="empty-desc">数据加载失败，请检查网络后重试</text>
+    </view>
+    <block wx:else>
+      <xx-drink-card item="{{featured}}" mode="{{mode}}" variant="hero" ctaText="推荐这杯 →" bind:cta="onRecommendThis" />
+      <view class="section-head">
+        <view class="section-head__main">
+          <view class="section-head__title serif">{{secondTitle}}</view>
+          <view class="section-head__sub">相同模式，不同风格</view>
+        </view>
+      </view>
+      <xx-drink-card wx:if="{{second && second.nameZh}}" item="{{second}}" mode="{{mode}}" variant="hero-secondary" favorite="{{second.favorite}}" bind:open="onOpenDetail" bind:favorite="onToggleFavorite" />
+    </block>
+  </view>
+
+  <view wx:if="{{recommendPanelVisible && recommend}}" class="overlay-host">
+    <view class="overlay-scrim" bindtap="onCloseRecommend"></view>
+    <view class="overlay-panel">
+      <view class="overlay-head">
+        <view class="overlay-title serif">这杯更适合现在的你</view>
+        <view class="close-button" bindtap="onCloseRecommend" hover-class="is-tap">
+          <image class="close-button__icon" src="/assets/icons/close-{{mode}}.png" mode="aspectFit" />
+        </view>
+      </view>
+      <view class="recommend-result">
+        <image class="recommend-result__img" src="{{recommend.drink.imageUrl}}" mode="aspectFill" binderror="onImgError" data-path="recommend.drink.imageUrl" />
+        <view class="recommend-result__body">
+          <view class="recommend-result__title serif">{{recommend.drink.nameZh}}</view>
+          <view class="recommend-result__en latin">{{recommend.drink.nameEn}}</view>
+          <view class="recommend-result__intro">{{recommend.drink.intro}}</view>
+          <view class="tags">
+            <view class="tag" wx:for="{{recommend.drink.tags}}" wx:key="*this" wx:if="{{index < 3}}">{{item}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="reason-list">
+        <view class="reason-item" wx:for="{{recommend.reasons}}" wx:key="*this">
+          <view class="reason-item__num number">0{{index + 1}}</view>
+          <view class="reason-item__text">{{item}}</view>
+        </view>
+      </view>
+      <view class="overlay-actions">
+        <view class="secondary-button" bindtap="onRecommendAgain" hover-class="is-tap">换一杯</view>
+        <view class="primary-button" bindtap="onOpenRecommendDetail" hover-class="is-tap">查看详情 →</view>
+      </view>
+    </view>
+  </view>
+
+  <app-toast content="{{toastText}}" show="{{toastShow}}" bind:hide="onToastHide" />
+</view>

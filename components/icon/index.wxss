@@ -1,0 +1,4 @@
+/* 图标组件：PNG 图片渲染（SVG 方案已弃用，WXML 不支持 svg/path/circle 标签，见 commit b68e36f） */
+.app-icon {
+  display: block;
+}

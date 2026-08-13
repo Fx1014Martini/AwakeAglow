@@ -1,0 +1,9 @@
+<!-- Canvas 2D 雷达图（微信小程序不支持 SVG，用 Canvas 绘制） -->
+<view class="radar-chart">
+  <canvas
+    type="2d"
+    id="radar-canvas"
+    class="radar-canvas"
+    style="width:{{canvasSize}}px;height:{{canvasSize}}px;"
+  ></canvas>
+</view>

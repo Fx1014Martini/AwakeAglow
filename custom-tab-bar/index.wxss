@@ -1,0 +1,51 @@
+/* 自定义底部导航（COMPONENT-SPEC：130rpx + safe-area，4 列等宽 grid）。
+ * 加 theme-{{mode}} 类承接 themes.wxss 的 CSS 变量定义（框架自动挂载时不一定
+ * 落在页面 .theme-xxx 根 view 内，需自带主题上下文），再用更高优先级覆盖
+ * themes.wxss 给 .theme-* 设置的页面渐变背景。 */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: calc(130rpx + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  border-top: 1rpx solid var(--border, rgba(113, 75, 38, .16));
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, .04);
+}
+
+/* 覆盖 themes.wxss 中 .theme-coffee/.theme-cocktail 的渐变背景，保留其变量定义 */
+.tabbar.theme-coffee,
+.tabbar.theme-cocktail {
+  background: var(--surface-strong, #fffdf9);
+}
+
+.tabbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+  color: var(--text-2, #806b5a);
+}
+
+.tabbar-icon {
+  width: 46rpx;
+  height: 46rpx;
+}
+
+.tabbar-text {
+  font-size: 20rpx;
+  line-height: 1;
+}
+
+.tabbar-item.is-active {
+  color: var(--primary, #9c6118);
+}
+
+.tabbar-item.is-active .tabbar-text {
+  font-weight: 800;
+}

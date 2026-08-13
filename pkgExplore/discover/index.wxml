@@ -1,0 +1,29 @@
+<!-- 场景发现页：双模式场景卡片 -->
+<view class="page-shell theme-{{mode}}" data-mode="{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{true}}" />
+  <view class="page page-enter explore-page">
+    <view class="explore-intro">
+      <text class="eyebrow">DISCOVER · 场景发现</text>
+      <view class="explore-title">找到属于这一刻的那杯</view>
+      <text class="explore-lead">选一个场景，帮你挑一杯</text>
+    </view>
+    <view class="scene-grid">
+      <view
+        wx:for="{{scenes}}"
+        wx:key="id"
+        class="scene-card {{item.mode === 'cocktail' ? 'scene-cocktail' : 'scene-coffee'}}"
+        data-id="{{item.id}}"
+        data-mode="{{item.mode}}"
+        bindtap="onSceneTap"
+        hover-class="is-tap"
+      >
+        <view class="scene-card-head">
+          <image class="scene-icon" src="/assets/icons/{{item.mode}}-{{item.mode}}.png" mode="aspectFit" style="width:48rpx;height:48rpx" />
+          <text class="scene-tag">{{item.mode === 'coffee' ? '咖啡' : '鸡尾酒'}}</text>
+        </view>
+        <view class="scene-name">{{item.scene}}</view>
+        <text class="scene-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+</view>

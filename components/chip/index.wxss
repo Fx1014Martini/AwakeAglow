@@ -1,0 +1,39 @@
+@import "../../styles/tokens.wxss";
+@import "../../styles/td-variables.wxss";
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 64rpx;
+  padding: 0 28rpx;
+  border: 1px solid var(--td-border-color);
+  border-radius: var(--td-radius-round);
+  background: var(--td-bg-color-component);
+  color: var(--td-text-color-secondary);
+  font-size: var(--td-font-size-body-small);
+  line-height: 1.2;
+  transition: all var(--motion-fast) var(--ease-standard);
+}
+
+.chip-active {
+  color: var(--td-text-color-primary);
+  background: var(--td-brand-color-light);
+  border-color: var(--td-brand-color);
+}
+
+.chip-disabled {
+  opacity: .45;
+  pointer-events: none;
+}
+
+.chip-hover {
+  transform: scale(.96);
+}
+
+.chip-check {
+  margin-right: 8rpx;
+  font-size: var(--td-font-size-body-extra-small);
+  color: var(--td-brand-color);
+  font-weight: 700;
+}

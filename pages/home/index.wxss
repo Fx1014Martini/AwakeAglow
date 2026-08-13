@@ -1,0 +1,594 @@
+/**
+ * 首页样式 - 严格对照原型 app.css + tokens.css。
+ * 换算：1 CSS px ≈ 1.923rpx（390px 设计宽 -> 750rpx）。
+ * color-mix() 预计算为 rgba 常量（WXSS 不支持 color-mix）。
+ * 负 z-index 改为正 z-index + 显式 overlay 层（WXSS 负 z-index 不可靠）。
+ */
+
+/* ---------- 页面布局 ---------- */
+
+.page {
+  height: auto;
+  overflow: visible;
+  padding: 0 31rpx 46rpx;
+}
+.home-page {
+  padding-top: 8rpx;
+}
+.home-intro {
+  padding: 0 8rpx;
+}
+
+/* ---------- 点击态（view 替代 button） ---------- */
+
+.is-tap { opacity: .82; }
+
+/* ---------- Mode switch（对齐原型 .mode-switch） ---------- */
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  margin: 0 auto 35rpx;
+  max-width: 519rpx;
+  border: 1rpx solid var(--xx-border);
+  border-radius: 27rpx;
+  background: var(--surface-muted-a72, rgba(245,234,220,.72));
+  overflow: hidden;
+}
+.theme-cocktail .mode-switch {
+  background: rgba(33,25,22,.72);
+}
+.mode-switch__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13rpx;
+  min-height: 88rpx;
+  background: transparent;
+  color: var(--xx-text2);
+  font-size: 25rpx;
+  font-weight: 700;
+  transition: background var(--xx-motion-normal) var(--xx-ease), color var(--xx-motion-normal) var(--xx-ease);
+}
+.mode-switch__btn.active {
+  color: var(--xx-text);
+  background: linear-gradient(120deg, #E3D1BA, #EFDBB8);
+  box-shadow: inset 0 0 0 1rpx rgba(156,97,24,.30);
+}
+.theme-cocktail .mode-switch__btn.active {
+  color: var(--xx-text);
+  background: linear-gradient(120deg, #431A1D, #4C3C24);
+  box-shadow: inset 0 0 0 1rpx rgba(212,167,91,.30);
+}
+.mode-switch__icon {
+  width: 33rpx;
+  height: 33rpx;
+}
+
+/* ---------- 排版（eyebrow / display-title / lead） ---------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 15rpx;
+  color: var(--xx-primary);
+  font-size: 17rpx;
+  letter-spacing: .18em;
+  font-weight: 800;
+}
+.display-title {
+  margin: 15rpx 0 13rpx;
+  font-family: var(--xx-font-serif);
+  font-size: 60rpx;
+  line-height: 1.18;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  color: var(--xx-text);
+}
+.lead {
+  margin: 0;
+  color: var(--xx-text2);
+  font-size: 23rpx;
+  line-height: 1.7;
+}
+
+/* ---------- 搜索入口（对齐原型 .search-field） ---------- */
+
+.home-intro .search-field {
+  margin-top: 35rpx;
+}
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 19rpx;
+  height: 96rpx;
+  border: 1rpx solid var(--xx-border);
+  border-radius: 35rpx;
+  background: var(--surface-a82, rgba(255,253,249,.82));
+  padding: 0 29rpx;
+  box-shadow: var(--xx-shadow-soft);
+}
+.theme-cocktail .search-field {
+  background: rgba(23,18,15,.82);
+}
+.search-field__icon {
+  width: 37rpx;
+  height: 37rpx;
+  flex: none;
+}
+.search-field__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  color: var(--xx-text);
+  background: transparent;
+  font-size: 23rpx;
+}
+.search-field__placeholder {
+  color: var(--xx-text2);
+  opacity: .76;
+}
+
+/* ---------- 场景 chips（对齐原型 .chip-row / .chip） ---------- */
+
+.chip-row {
+  display: flex;
+  gap: 15rpx;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4rpx 0 10rpx;
+  width: 100%;
+}
+.home-chips {
+  margin-top: 31rpx;
+}
+.chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 17rpx 25rpx;
+  font-size: 19rpx;
+  font-weight: 700;
+  border: 1rpx solid var(--xx-border);
+  border-radius: var(--xx-radius-pill);
+  background: var(--surface-a72, rgba(255,253,249,.72));
+  color: var(--xx-text2);
+  white-space: nowrap;
+}
+.theme-cocktail .chip {
+  background: rgba(23,18,15,.72);
+}
+.chip.active {
+  color: var(--xx-text);
+  background: linear-gradient(135deg, #F0DEBD, #E9DBC8);
+  border-color: rgba(156,97,24,.48);
+}
+.theme-cocktail .chip.active {
+  color: var(--xx-text);
+  background: linear-gradient(135deg, #40191C, #413320);
+  border-color: rgba(212,167,91,.48);
+}
+
+/* ---------- 区块标题（对齐原型 .section-head） ---------- */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 23rpx;
+  margin: 42rpx 0 21rpx;
+}
+.section-head__main {
+  flex: 1;
+  min-width: 0;
+}
+.section-head__title {
+  font-family: var(--xx-font-serif);
+  font-weight: 500;
+  font-size: 40rpx;
+  letter-spacing: -.02em;
+  color: var(--xx-text);
+  line-height: 1.2;
+}
+.section-head__sub {
+  margin-top: 8rpx;
+  color: var(--xx-text2);
+  font-size: 19rpx;
+}
+.section-head__action {
+  background: transparent;
+  color: var(--xx-text2);
+  font-size: 21rpx;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* ---------- 卡片基类（对齐原型 .card） ---------- */
+
+.card {
+  border: 1rpx solid var(--xx-border);
+  background: var(--xx-surface);
+  border-radius: var(--xx-radius-lg);
+  box-shadow: var(--xx-shadow-soft);
+}
+
+/* ---------- 推荐主卡（对齐原型 .recommendation-hero） ---------- */
+
+.recommendation-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 481rpx;
+  padding: 42rpx 35rpx 130rpx;
+}
+.hero-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 38%;
+  width: 62%;
+  height: 100%;
+  z-index: 0;
+}
+.recommendation-hero__overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, rgba(255,253,249,.96) 0%, rgba(255,253,249,.85) 52%, transparent 78%);
+  z-index: 1;
+}
+.theme-cocktail .recommendation-hero__overlay {
+  background: linear-gradient(90deg, rgba(23,18,15,.96) 0%, rgba(23,18,15,.85) 52%, transparent 78%);
+}
+.badge {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  padding: 10rpx 17rpx;
+  border-radius: var(--xx-radius-pill);
+  color: var(--xx-primary);
+  background: var(--surface-a88, rgba(255,253,249,.88));
+  border: 1rpx solid var(--xx-border);
+  font-size: 17rpx;
+}
+.theme-cocktail .badge {
+  background: rgba(23,18,15,.88);
+}
+.recommendation-hero__title {
+  position: relative;
+  z-index: 2;
+  max-width: 58%;
+  margin: 31rpx 0 2rpx;
+  font-family: var(--xx-font-serif);
+  font-size: 56rpx;
+  line-height: 1.05;
+  font-weight: 500;
+  color: var(--xx-text);
+}
+.recommendation-hero__en {
+  position: relative;
+  z-index: 2;
+  font-family: var(--xx-font-latin);
+  color: var(--xx-text2);
+  font-size: 29rpx;
+}
+.recommendation-hero__intro {
+  position: relative;
+  z-index: 2;
+  max-width: 55%;
+  margin: 23rpx 0;
+  color: var(--xx-text2);
+  font-size: 19rpx;
+  line-height: 1.65;
+}
+.recommendation-hero .tags {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  max-width: 62%;
+}
+.recommendation-hero__btn {
+  position: absolute;
+  left: 35rpx;
+  bottom: 35rpx;
+  z-index: 2;
+}
+
+/* ---------- 按钮（对齐原型 .primary-button / .secondary-button） ---------- */
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88rpx;
+  border-radius: var(--xx-radius-pill);
+  padding: 0 38rpx;
+  font-weight: 800;
+  font-size: 23rpx;
+  color: #fffdf9;
+  background: linear-gradient(120deg, var(--xx-primary), var(--xx-primary2));
+  box-shadow: var(--xx-shadow-soft);
+}
+.theme-cocktail .primary-button {
+  color: #1b1109;
+  background: linear-gradient(120deg, var(--xx-primary), var(--xx-primary2));
+}
+.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88rpx;
+  border-radius: var(--xx-radius-pill);
+  padding: 0 38rpx;
+  font-weight: 800;
+  font-size: 23rpx;
+  color: var(--xx-text);
+  background: var(--xx-surface-muted);
+  border: 1rpx solid var(--xx-border);
+}
+
+/* ---------- 标签（对齐原型 .tag） ---------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 10rpx 15rpx;
+  border-radius: 15rpx;
+  font-size: 17rpx;
+  white-space: nowrap;
+  border: 1rpx solid var(--xx-border);
+  background: var(--surface-a72, rgba(255,253,249,.72));
+  color: var(--xx-text2);
+}
+.theme-cocktail .tag {
+  background: rgba(23,18,15,.72);
+}
+
+/* ---------- 次推荐卡（对齐原型 .mini-recommend） ---------- */
+
+.mini-recommend {
+  position: relative;
+  overflow: hidden;
+  min-height: 296rpx;
+  padding: 35rpx;
+}
+.mini-recommend__photo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 54%;
+  height: 100%;
+  z-index: 0;
+}
+.mini-recommend__overlay {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, var(--xx-surface-strong) 0%, rgba(255,253,249,.94) 45%, transparent 76%);
+  z-index: 1;
+}
+.theme-cocktail .mini-recommend__overlay {
+  background: linear-gradient(90deg, var(--xx-surface-strong) 0%, rgba(23,18,15,.94) 45%, transparent 76%);
+}
+.mini-recommend__title {
+  position: relative;
+  z-index: 2;
+  max-width: 50%;
+  margin: 0;
+  font-family: var(--xx-font-serif);
+  font-size: 42rpx;
+  font-weight: 500;
+  color: var(--xx-text);
+}
+.mini-recommend__en {
+  position: relative;
+  z-index: 2;
+  color: var(--xx-text2);
+  font-family: var(--xx-font-latin);
+  font-size: 25rpx;
+}
+.mini-recommend__intro {
+  position: relative;
+  z-index: 2;
+  max-width: 48%;
+  margin: 19rpx 0;
+  color: var(--xx-text2);
+  font-size: 17rpx;
+  line-height: 1.55;
+}
+.mini-recommend .tags {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+/* ---------- 收藏按钮（对齐原型 .favorite-button：非 absolute，正常流 margin-top） ---------- */
+
+.favorite-button {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65rpx;
+  height: 65rpx;
+  margin-top: 12rpx;
+  border-radius: 50%;
+  border: 1rpx solid var(--xx-border);
+  background: transparent;
+  color: var(--xx-text2);
+}
+.favorite-button.active {
+  color: #bb535e;
+  background: rgba(145,40,51,.12);
+}
+.favorite-button__icon {
+  width: 33rpx;
+  height: 33rpx;
+}
+
+/* ---------- 推荐结果 Overlay（对齐原型 .overlay-panel，居中非底部抽屉） ---------- */
+
+.overlay-host {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 200;
+}
+.overlay-scrim {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(7,5,4,.48);
+  animation: fadeIn var(--xx-motion-fast) both;
+}
+.overlay-panel {
+  position: fixed;
+  left: 50%;
+  bottom: calc(130rpx + env(safe-area-inset-bottom, 0) + 15rpx);
+  transform: translateX(-50%);
+  width: min(712rpx, calc(100vw - 46rpx));
+  max-height: calc(100vh - 180rpx);
+  box-sizing: border-box;
+  border-radius: 50rpx;
+  padding: 35rpx 35rpx 35rpx;
+  color: var(--xx-text);
+  background: var(--xx-surface-strong);
+  border: 1rpx solid var(--xx-border);
+  box-shadow: 0 65rpx 154rpx rgba(0,0,0,.42);
+  animation: sheetUp var(--xx-motion-normal) var(--xx-ease) both;
+  z-index: 201;
+}
+.overlay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 23rpx;
+}
+.overlay-title {
+  margin: 0;
+  font-family: var(--xx-font-serif);
+  font-size: 42rpx;
+  font-weight: 500;
+  color: var(--xx-text);
+}
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 69rpx;
+  height: 69rpx;
+  border-radius: 50%;
+  background: var(--xx-surface-muted);
+  color: var(--xx-text);
+}
+.close-button__icon {
+  width: 35rpx;
+  height: 35rpx;
+}
+.recommend-result {
+  display: grid;
+  grid-template-columns: 215rpx 1fr;
+  gap: 27rpx;
+  margin: 35rpx 0;
+}
+.recommend-result__img {
+  width: 215rpx;
+  height: 269rpx;
+  object-fit: cover;
+  border-radius: 35rpx;
+}
+.recommend-result__body {
+  min-width: 0;
+}
+.recommend-result__title {
+  margin: 8rpx 0 4rpx;
+  font-family: var(--xx-font-serif);
+  font-size: 48rpx;
+  font-weight: 500;
+  color: var(--xx-text);
+}
+.recommend-result__en {
+  color: var(--xx-text2);
+  font-family: var(--xx-font-latin);
+  font-size: 23rpx;
+}
+.recommend-result__intro {
+  margin-top: 15rpx;
+  color: var(--xx-text2);
+  font-size: 19rpx;
+  line-height: 1.55;
+}
+.recommend-result .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 15rpx;
+}
+.reason-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+.reason-item {
+  display: grid;
+  grid-template-columns: 50rpx 1fr;
+  gap: 17rpx;
+  padding: 19rpx;
+  border: 1rpx solid var(--xx-border);
+  border-radius: 23rpx;
+  background: var(--xx-surface);
+  font-size: 17rpx;
+  line-height: 1.5;
+  color: var(--xx-text2);
+}
+.reason-item__num {
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+.reason-item__text {
+  min-width: 0;
+}
+.overlay-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 15rpx;
+  margin-top: 31rpx;
+}
+
+/* ---------- 入场动画（对齐原型 pageEnter） ---------- */
+
+.page-enter {
+  animation: pageEnter var(--xx-motion-normal) var(--xx-ease) both;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(13rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes sheetUp {
+  from { opacity: 0; transform: translate(-50%, 38rpx); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ---------- 响应式断点（对齐原型 responsive.css） ---------- */
+
+@media (max-width: 370px) {
+  .page { padding-left: 23rpx; padding-right: 23rpx; }
+  .display-title { font-size: 58rpx; }
+  .recommendation-hero { min-height: 458rpx; padding-left: 29rpx; padding-right: 29rpx; }
+  .recommendation-hero__btn { left: 29rpx; bottom: 29rpx; }
+}
+
+@media (min-width: 430px) {
+  .page { padding-left: 38rpx; padding-right: 38rpx; }
+  .recommendation-hero { min-height: 527rpx; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter, .overlay-scrim, .overlay-panel { animation-duration: .01ms !important; }
+}

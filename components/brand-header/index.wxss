@@ -1,0 +1,162 @@
+/* 品牌顶部栏：fixed 顶部，主题语义变量继承自页面根 view[data-mode] */
+.bh-spacer {
+  width: 100%;
+}
+
+.bh {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--bg, var(--coffee-bg));
+  transition: background var(--motion-slow) var(--ease-standard);
+}
+
+/* 对齐原型 app-header：42px 1fr 42px，高 60px */
+.bh-bar {
+  display: grid;
+  grid-template-columns: 81rpx minmax(0, 1fr) 81rpx;
+  align-items: center;
+  height: 115rpx;
+  padding: 8rpx 31rpx 15rpx;
+}
+
+.bh-btn {
+  display: grid;
+  place-items: center;
+  width: 73rpx;
+  height: 73rpx;
+  border-radius: 50%;
+  background: var(--surface-a80);
+  border: 1px solid var(--border, var(--coffee-border));
+  color: var(--text, var(--coffee-text));
+  box-shadow: var(--shadow-soft, var(--coffee-shadow-soft));
+}
+
+/* 根页面返回按钮：保留占位避免 Logo 偏移（对齐原型 is-hidden） */
+.bh-btn.bh-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.bh-logo {
+  justify-self: center;
+  width: 235rpx;
+  color: var(--primary, var(--coffee-primary));
+}
+
+/* ---------- 全局控制台弹层 ---------- */
+.bh-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(7, 5, 4, .48);
+}
+
+.bh-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 38rpx;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(712rpx, calc(100vw - 46rpx));
+  max-height: min(1386rpx, calc(100vh - 77rpx));
+  overflow: auto;
+  border-radius: 50rpx;
+  padding: 35rpx;
+  color: var(--text, var(--coffee-text));
+  background: var(--surface-strong, var(--coffee-surface-strong));
+  border: 1px solid var(--border, var(--coffee-border));
+  box-shadow: 0 65rpx 154rpx rgba(0, 0, 0, .42);
+}
+
+.bh-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 23rpx;
+}
+
+.bh-panel-title {
+  font-family: var(--font-serif);
+  font-size: 42rpx;
+  font-weight: 500;
+}
+
+.bh-panel-close {
+  display: grid;
+  place-items: center;
+  width: 69rpx;
+  height: 69rpx;
+  border-radius: 50%;
+  background: var(--surface-muted, var(--coffee-surface-muted));
+  color: var(--text, var(--coffee-text));
+}
+
+.bh-ds-label {
+  margin-top: 23rpx;
+  color: var(--text-2, var(--coffee-text-2));
+  font-size: 17rpx;
+}
+
+.bh-ds-options {
+  display: flex;
+  gap: 15rpx;
+  margin-top: 10rpx;
+}
+
+.bh-ds {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 77rpx;
+  border: 1px solid var(--border, var(--coffee-border));
+  border-radius: 19rpx;
+  background: var(--surface, var(--coffee-surface));
+  color: var(--text, var(--coffee-text));
+  font-size: 23rpx;
+}
+
+.bh-ds-active {
+  border-color: var(--primary, var(--coffee-primary));
+  color: var(--primary, var(--coffee-primary));
+  background: var(--primary-a12);
+}
+
+.bh-lead {
+  display: block;
+  margin-top: 15rpx;
+  color: var(--text-2, var(--coffee-text-2));
+  font-size: 23rpx;
+  line-height: 1.7;
+}
+
+.bh-actions {
+  display: grid;
+  gap: 15rpx;
+  margin-top: 31rpx;
+}
+
+.bh-btn-primary,
+.bh-btn-secondary {
+  display: grid;
+  place-items: center;
+  min-height: 88rpx;
+  border-radius: var(--radius-pill);
+  padding: 0 38rpx;
+  font-weight: 800;
+  font-size: 23rpx;
+}
+
+.bh-btn-primary {
+  color: var(--td-text-color-anti, var(--coffee-surface-strong));
+  background: linear-gradient(120deg, var(--primary, var(--coffee-primary)), var(--primary-2, var(--coffee-primary-2)));
+  box-shadow: var(--shadow-soft, var(--coffee-shadow-soft));
+}
+
+.bh-btn-secondary {
+  color: var(--text, var(--coffee-text));
+  background: var(--surface-muted, var(--coffee-surface-muted));
+  border: 1px solid var(--border, var(--coffee-border));
+}

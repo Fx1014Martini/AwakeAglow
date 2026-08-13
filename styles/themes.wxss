@@ -1,0 +1,213 @@
+/**
+ * themes.wxss - 双主题语义层（--xx-* 业务语义 + --td-* TDesign 映射）。
+ *
+ * 业务组件只读 --xx-*，--xx-* 再映射到 --td-*，解耦 TDesign 实现。
+ * 主题切换：根节点挂 .theme-coffee/.theme-cocktail 类 或 view[data-mode] 属性。
+ * 新增颜色/尺寸先加 Token（design/tokens.json + styles/tokens.wxss），不在组件硬编码。
+ */
+
+/* 咖啡主题：晨光、清醒、柔和（通用 view[data-mode] 作默认，.theme-coffee 类 + 特定 data-mode="coffee" 覆盖） */
+.theme-coffee,
+view[data-mode].page,
+view[data-mode].page-root,
+view[data-mode="coffee"].page,
+view[data-mode="coffee"].page-root {
+  --td-brand-color: #9c6118;
+  --td-brand-color-light: #d5a34e;
+  --td-brand-color-focus: rgba(156, 97, 24, .2);
+  --td-brand-color-active: #f0c879;
+  --td-brand-color-gradient: linear-gradient(120deg, var(--td-brand-color), var(--td-brand-color-light));
+  --td-text-color-primary: #342216;
+  --td-text-color-secondary: #806b5a;
+  --td-text-color-placeholder: #806b5a;
+  --td-text-color-anti: #fffdf9;
+  --td-text-color-brand: #9c6118;
+  --td-text-color-link: #9c6118;
+  --td-text-color-disabled: rgba(52, 34, 22, .3);
+  --td-bg-color-page: #f8f2e9;
+  --td-bg-color-container: #fffdf9;
+  --td-bg-color-secondarycontainer: #f5eadc;
+  --td-bg-color-component: rgba(255, 253, 249, .92);
+  --td-bg-color-component-hover: #f5eadc;
+  --td-bg-color-component-disabled: #f5eadc;
+  --td-bg-color-container-hover: #f5eadc;
+  --td-bg-color-container-active: #f5eadc;
+  --td-border-color: rgba(113, 75, 38, .16);
+  --td-border-level-1-color: rgba(113, 75, 38, .16);
+  --td-border-level-2-color: rgba(113, 75, 38, .16);
+  --td-error-color: #a93b3b;
+  --td-error-color-bg: rgba(169, 59, 59, .12);
+  --td-success-color: #486c47;
+  --td-warning-color: #d5a34e;
+  --td-shadow-1: 0 8px 24px rgba(104, 63, 21, .09);
+  --td-shadow-2: 0 18px 46px rgba(104, 63, 21, .14);
+
+  --xx-bg: #f8f2e9;
+  --xx-bg2: #efe0cd;
+  --xx-surface: rgba(255, 253, 249, .92);
+  --xx-surface-strong: #fffdf9;
+  --xx-surface-muted: #f5eadc;
+  --xx-text: #342216;
+  --xx-text2: #806b5a;
+  --xx-border: rgba(113, 75, 38, .16);
+  --xx-primary: #9c6118;
+  --xx-primary2: #d5a34e;
+  --xx-accent: #f0c879;
+  --xx-danger: #a93b3b;
+  --xx-success: #486c47;
+  --xx-on-primary: #fffdf9;
+  --xx-chip-wanted: rgba(156, 97, 24, .12);
+  --xx-chip-wanted-border: rgba(156, 97, 24, .45);
+  --xx-chip-excluded: rgba(134, 41, 41, .14);
+  --xx-chip-excluded-text: #d78e8e;
+  --xx-chip-excluded-border: rgba(190, 75, 75, .55);
+  --xx-card-shadow: 0 18rpx 52rpx rgba(104, 63, 21, .105);
+  --xx-shadow-soft: 0 8px 24px rgba(104, 63, 21, .09);
+  --xx-hairline: rgba(113, 75, 38, .12);
+  --xx-glow: rgba(240, 200, 121, .36);
+  --xx-fav-active: #bb535e;
+  --xx-fav-active-bg: rgba(145, 40, 51, .12);
+
+  /* 兼容原型组件使用的短变量名，保证主题切换覆盖所有页面 */
+  --bg: var(--xx-bg);
+  --surface: var(--xx-surface);
+  --surface-strong: var(--xx-surface-strong);
+  --surface-muted: var(--xx-surface-muted);
+  --text: var(--xx-text);
+  --text-2: var(--xx-text2);
+  --border: var(--xx-border);
+  --primary: var(--xx-primary);
+  --primary-2: var(--xx-primary2);
+  --shadow: var(--xx-card-shadow);
+  --shadow-soft: var(--xx-shadow-soft);
+
+  /* alpha/tint 变量（页面 WXSS 半透明背景依赖） */
+  --surface-a72: rgba(255, 253, 249, .72);
+  --surface-a75: rgba(255, 253, 249, .75);
+  --surface-a80: rgba(255, 253, 249, .80);
+  --surface-a82: rgba(255, 253, 249, .82);
+  --surface-a85: rgba(255, 253, 249, .85);
+  --surface-a86: rgba(255, 253, 249, .86);
+  --surface-a88: rgba(255, 253, 249, .88);
+  --surface-a90: rgba(255, 253, 249, .90);
+  --surface-a94: rgba(255, 253, 249, .94);
+  --surface-a96: rgba(255, 253, 249, .96);
+  --surface-muted-a72: rgba(245, 234, 220, .72);
+  --surface-muted-a76: rgba(245, 234, 220, .76);
+  --tint-20: #ebddcc;
+  --tint-22: #e9dac7;
+  --tint-26: #e5d4be;
+  --tint-border-55: #8a5524;
+  --primary-a12: rgba(156, 97, 24, .12);
+  --primary-a30: rgba(156, 97, 24, .30);
+  --border-a72: rgba(113, 75, 38, .12);
+  --page-a92: rgba(248, 242, 233, .92);
+
+  background:
+    radial-gradient(circle at 4% 4%, rgba(255, 222, 160, .55), transparent 30%),
+    radial-gradient(circle at 96% 32%, rgba(255, 245, 224, .8), transparent 38%),
+    linear-gradient(180deg, #fffaf3 0%, #f8f2e9 44%, #f4eadf 100%);
+  color: var(--xx-text);
+}
+
+/* 鸡尾酒主题：夜晚、克制、优雅 */
+.theme-cocktail,
+view[data-mode="cocktail"].page,
+view[data-mode="cocktail"].page-root {
+  --td-brand-color: #d4a75b;
+  --td-brand-color-light: #8b2634;
+  --td-brand-color-focus: rgba(212, 167, 91, .2);
+  --td-brand-color-active: #741d2a;
+  --td-brand-color-gradient: linear-gradient(120deg, var(--td-brand-color), var(--td-brand-color-light));
+  --td-text-color-primary: #f1dfbd;
+  --td-text-color-secondary: #a89174;
+  --td-text-color-placeholder: #a89174;
+  --td-text-color-anti: #1b1109;
+  --td-text-color-brand: #d4a75b;
+  --td-text-color-link: #d4a75b;
+  --td-text-color-disabled: rgba(241, 223, 189, .3);
+  --td-bg-color-page: #080706;
+  --td-bg-color-container: #17120f;
+  --td-bg-color-secondarycontainer: #211916;
+  --td-bg-color-component: rgba(21, 17, 13, .92);
+  --td-bg-color-component-hover: #211916;
+  --td-bg-color-component-disabled: #211916;
+  --td-bg-color-container-hover: #211916;
+  --td-bg-color-container-active: #211916;
+  --td-border-color: rgba(210, 167, 91, .24);
+  --td-border-level-1-color: rgba(210, 167, 91, .24);
+  --td-border-level-2-color: rgba(210, 167, 91, .24);
+  --td-error-color: #c95050;
+  --td-error-color-bg: rgba(201, 80, 80, .16);
+  --td-success-color: #6a8f5a;
+  --td-warning-color: #d4a75b;
+  --td-shadow-1: 0 10px 30px rgba(0, 0, 0, .35);
+  --td-shadow-2: 0 20px 52px rgba(0, 0, 0, .48);
+
+  --xx-bg: #080706;
+  --xx-bg2: #16100d;
+  --xx-surface: rgba(21, 17, 13, .92);
+  --xx-surface-strong: #17120f;
+  --xx-surface-muted: #211916;
+  --xx-text: #f1dfbd;
+  --xx-text2: #a89174;
+  --xx-border: rgba(210, 167, 91, .24);
+  --xx-primary: #d4a75b;
+  --xx-primary2: #8b2634;
+  --xx-accent: #741d2a;
+  --xx-danger: #c95050;
+  --xx-success: #6a8f5a;
+  --xx-on-primary: #1b1109;
+  --xx-chip-wanted: rgba(212, 167, 91, .14);
+  --xx-chip-wanted-border: rgba(212, 167, 91, .5);
+  --xx-chip-excluded: rgba(134, 41, 41, .18);
+  --xx-chip-excluded-text: #d78e8e;
+  --xx-chip-excluded-border: rgba(190, 75, 75, .55);
+  --xx-card-shadow: 0 24rpx 70rpx rgba(0, 0, 0, .46);
+  --xx-shadow-soft: 0 10px 30px rgba(0, 0, 0, .35);
+  --xx-hairline: rgba(210, 167, 91, .18);
+  --xx-glow: rgba(116, 29, 42, .32);
+  --xx-fav-active: #bb535e;
+  --xx-fav-active-bg: rgba(145, 40, 51, .12);
+
+  /* 兼容原型组件使用的短变量名，保证主题切换覆盖所有页面 */
+  --bg: var(--xx-bg);
+  --surface: var(--xx-surface);
+  --surface-strong: var(--xx-surface-strong);
+  --surface-muted: var(--xx-surface-muted);
+  --text: var(--xx-text);
+  --text-2: var(--xx-text2);
+  --border: var(--xx-border);
+  --primary: var(--xx-primary);
+  --primary-2: var(--xx-primary2);
+  --shadow: var(--xx-card-shadow);
+  --shadow-soft: var(--xx-shadow-soft);
+
+  /* alpha/tint 变量（页面 WXSS 半透明背景依赖） */
+  --surface-a72: rgba(23, 18, 15, .72);
+  --surface-a75: rgba(23, 18, 15, .75);
+  --surface-a80: rgba(23, 18, 15, .80);
+  --surface-a82: rgba(23, 18, 15, .82);
+  --surface-a85: rgba(23, 18, 15, .85);
+  --surface-a86: rgba(23, 18, 15, .86);
+  --surface-a88: rgba(23, 18, 15, .88);
+  --surface-a90: rgba(23, 18, 15, .90);
+  --surface-a94: rgba(23, 18, 15, .94);
+  --surface-a96: rgba(23, 18, 15, .96);
+  --surface-muted-a72: rgba(33, 25, 22, .72);
+  --surface-muted-a76: rgba(33, 25, 22, .76);
+  --tint-20: #3d301e;
+  --tint-22: #413320;
+  --tint-26: #483923;
+  --tint-border-55: #9a7034;
+  --primary-a12: rgba(212, 167, 91, .12);
+  --primary-a30: rgba(212, 167, 91, .30);
+  --border-a72: rgba(210, 167, 91, .17);
+  --page-a92: rgba(8, 7, 6, .92);
+
+  background:
+    radial-gradient(circle at 91% 3%, rgba(116, 29, 42, .33), transparent 35%),
+    radial-gradient(circle at 4% 62%, rgba(204, 132, 45, .105), transparent 32%),
+    linear-gradient(180deg, #080706 0%, #0c0908 46%, #120d0b 100%);
+  color: var(--xx-text);
+}

@@ -1,0 +1,32 @@
+@import "../../styles/tokens.wxss";
+@import "../../styles/td-variables.wxss";
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(120rpx + env(safe-area-inset-bottom));
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  padding: 20rpx 32rpx;
+  border-radius: var(--td-radius-round);
+  background: #18120e;
+  color: #fff7e8;
+  font-size: var(--td-font-size-body-small);
+  box-shadow: var(--td-shadow-2);
+  transform: translate(-50%, 40rpx);
+  opacity: 0;
+  transition: transform var(--motion-normal) var(--ease-standard), opacity var(--motion-normal) var(--ease-standard);
+  pointer-events: none;
+}
+
+.toast-show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.toast-icon {
+  margin-right: 12rpx;
+  font-size: var(--td-font-size-body-large);
+}

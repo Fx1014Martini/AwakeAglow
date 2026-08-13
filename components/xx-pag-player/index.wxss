@@ -1,0 +1,21 @@
+.pag-host {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.pag-canvas {
+  width: 100%;
+  height: 100%;
+}
+.pag-fallback-img {
+  width: 100%;
+  height: 100%;
+  animation: xx-soft-glow 3s var(--xx-ease, ease-in-out) infinite;
+}
+.pag-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--xx-surface-muted, #f5eadc);
+  animation: xx-soft-glow 3s var(--xx-ease, ease-in-out) infinite;
+}

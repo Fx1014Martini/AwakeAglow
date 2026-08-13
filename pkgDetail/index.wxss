@@ -1,0 +1,501 @@
+/* 详情页样式：双主题经 app.wxss view[data-mode] 选择器切换，语义别名 var(--td-*) 自动跟随 */
+@import "/styles/tokens.wxss";
+@import "/styles/td-variables.wxss";
+
+.detail-page {
+  padding: 0 0 calc(170rpx + env(safe-area-inset-bottom));
+}
+
+/* ---------- 骨架 ---------- */
+.detail-skeleton {
+  padding: 0 32rpx;
+}
+
+.skeleton-block {
+  background: var(--td-bg-color-secondarycontainer);
+  border-radius: var(--td-radius-medium);
+}
+
+.skeleton-hero {
+  height: 460rpx;
+}
+
+.skeleton-line {
+  height: 32rpx;
+  margin-top: 24rpx;
+  border-radius: var(--td-radius-round);
+  background: var(--td-bg-color-secondarycontainer);
+}
+
+.skeleton-line-short {
+  width: 60%;
+}
+
+/* ---------- 空态 ---------- */
+.detail-empty {
+  padding: 32rpx;
+}
+
+/* ---------- Hero ---------- */
+.detail-hero {
+  position: relative;
+  min-height: 663rpx;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 宽屏（≥430px）加高，对齐原型 @media (min-width:430px) detail-hero 390px */
+@media (min-width: 430px) {
+  .detail-hero {
+    min-height: 750rpx;
+  }
+}
+
+.detail-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  background: var(--td-bg-color-secondarycontainer);
+}
+
+/* 左侧渐变保证文字可读（对齐原型 .detail-hero::after） */
+.detail-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--td-bg-color-page) 0%, var(--page-a92) 42%, transparent 78%), linear-gradient(0deg, var(--td-bg-color-page) 0%, transparent 34%);
+  z-index: -1;
+}
+
+.detail-hero-copy {
+  position: relative;
+  z-index: 1;
+  width: 64%;
+  padding: 100rpx 32rpx 40rpx;
+}
+
+.detail-name {
+  font-family: var(--font-serif);
+  font-size: 64rpx;
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -.03em;
+  color: var(--td-text-color-primary);
+}
+
+.detail-en {
+  margin-top: 6rpx;
+  font-family: var(--font-latin);
+  color: var(--td-text-color-secondary);
+  font-size: 37rpx;
+}
+
+.detail-desc {
+  margin: 38rpx 0 27rpx;
+  color: var(--td-text-color-secondary);
+  font-size: 21rpx;
+  line-height: 1.75;
+}
+
+.detail-hero .tags {
+  max-width: 72%;
+}
+
+.detail-fav {
+  position: absolute;
+  top: 20rpx;
+  right: 24rpx;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 50%;
+  border: 1rpx solid var(--td-border-color);
+  background: var(--surface-a86);
+  color: var(--td-text-color-secondary);
+  font-size: 36rpx;
+}
+
+.detail-fav.fav-active {
+  color: #bb535e;
+  background: rgba(145, 40, 51, .12);
+}
+
+/* ---------- Tabs（sticky 于滚动区顶部，Tab 切换不改 URL） ---------- */
+.detail-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: 0 31rpx;
+  border: 1rpx solid var(--td-border-color);
+  border-radius: 27rpx 27rpx 0 0;
+  overflow: hidden;
+  background: var(--surface-a94);
+}
+
+/* ---------- 内容 ---------- */
+.detail-content {
+  padding: 0 24rpx;
+}
+
+/* 概览双列：配方比例 | 风味雷达（对齐原型 detail-grid：-42px 叠压 hero，z-index 3） */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 19rpx;
+  margin-top: -81rpx;
+  position: relative;
+  z-index: 3;
+}
+
+/* 单列窄屏降级（对齐原型 @media max-width:370px detail-grid 单列） */
+@media (max-width: 370px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+    margin-top: -54rpx;
+  }
+}
+
+.info-card {
+  padding: 29rpx;
+  border: 1rpx solid var(--td-border-color);
+  border-radius: var(--td-radius-large);
+  background: var(--td-bg-color-component);
+  box-shadow: var(--td-shadow-1);
+}
+
+.info-card-title {
+  margin-bottom: 23rpx;
+  font-family: var(--font-serif);
+  font-size: 31rpx;
+  font-weight: 500;
+  color: var(--td-text-color-primary);
+}
+
+.step-card {
+  margin-top: 19rpx;
+  padding: 27rpx;
+  border: 1rpx solid var(--td-border-color);
+  border-radius: 42rpx;
+  background: var(--td-bg-color-component);
+  box-shadow: var(--td-shadow-1);
+}
+
+.step-card .info-card-title {
+  font-size: 33rpx;
+  margin-bottom: 19rpx;
+}
+
+/* 配方 tab：原料与步骤之间的间隔（对齐原型 <div style="height:12px">） */
+.recipe-spacer {
+  height: 23rpx;
+}
+
+.radar-wrap {
+  display: grid;
+  place-items: center;
+  min-height: 346rpx;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12rpx;
+  margin: 36rpx 0 18rpx;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 38rpx;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  color: var(--td-text-color-primary);
+}
+
+.section-sub {
+  display: block;
+  margin-top: 8rpx;
+  color: var(--td-text-color-secondary);
+  font-size: 19rpx;
+}
+
+/* ---------- 原料与配比 ---------- */
+.ingredient-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16rpx;
+  padding: 15rpx 0;
+  border-top: 1rpx solid var(--td-border-color);
+  font-size: 17rpx;
+}
+
+.ingredient-row:first-of-type {
+  border-top: 0;
+}
+
+.ingredient-name {
+  color: var(--td-text-color-primary);
+  font-weight: 600;
+}
+
+.ingredient-en {
+  color: var(--td-text-color-secondary);
+  font-family: var(--font-latin);
+  font-weight: 400;
+  font-size: 15rpx;
+}
+
+.ingredient-amount {
+  color: var(--td-text-color-secondary);
+}
+
+.ingredient-empty {
+  padding: 36rpx 0;
+  text-align: center;
+  color: var(--td-text-color-secondary);
+  font-size: var(--td-font-size-body-small);
+}
+
+/* ---------- 制作步骤（对齐原型 step-row：22px 序号 + 文本 + 16px 箭头） ---------- */
+.step-row {
+  display: grid;
+  grid-template-columns: 42rpx minmax(0, 1fr) 31rpx;
+  align-items: center;
+  gap: 13rpx;
+  min-height: 73rpx;
+  padding: 10rpx 0;
+  border-top: 1rpx solid var(--td-border-color);
+  font-size: 17rpx;
+  line-height: 1.45;
+}
+
+.step-row:first-of-type {
+  border-top: 0;
+}
+
+.step-index {
+  display: grid;
+  place-items: center;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: var(--tint-22);
+  color: var(--td-brand-color);
+  font-weight: 800;
+  font-size: var(--td-font-size-mark-small);
+}
+
+.step-text {
+  color: var(--td-text-color-primary);
+}
+
+.step-arrow {
+  color: var(--td-text-color-secondary);
+  text-align: right;
+}
+
+/* ---------- 雷达 ---------- */
+.radar-tip {
+  display: block;
+  margin-top: 20rpx;
+  color: var(--td-text-color-secondary);
+  font-size: 23rpx;
+  line-height: 1.7;
+}
+
+/* ---------- 相似推荐（横滑） ---------- */
+.overview-similar-head {
+  align-items: center;
+}
+
+.overview-more {
+  flex: none;
+  padding: 12rpx 0 12rpx 24rpx;
+  color: var(--td-brand-color);
+  font-size: var(--td-font-size-mark-small);
+}
+
+.similar-scroll {
+  display: flex;
+  gap: 18rpx;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.similar-card {
+  flex: 0 0 auto;
+  width: 260rpx;
+  overflow: hidden;
+  border: 1rpx solid var(--td-border-color);
+  border-radius: var(--td-radius-medium);
+  background: var(--td-bg-color-container);
+  box-shadow: var(--td-shadow-1);
+}
+
+.similar-photo {
+  width: 100%;
+  height: 163rpx;
+  object-fit: cover;
+  background: var(--td-bg-color-secondarycontainer);
+}
+
+.similar-copy {
+  padding: 17rpx;
+}
+
+.similar-name {
+  font-family: var(--font-serif);
+  font-size: 25rpx;
+  font-weight: 500;
+  color: var(--td-text-color-primary);
+}
+
+.similar-en {
+  margin-top: 4rpx;
+  font-family: var(--font-latin);
+  color: var(--td-text-color-secondary);
+  font-size: 17rpx;
+}
+
+/* ---------- 标签 ---------- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 12rpx;
+}
+
+.tag {
+  padding: 10rpx 16rpx;
+  border-radius: var(--radius-xs);
+  background: var(--td-bg-color-secondarycontainer);
+  color: var(--td-text-color-secondary);
+  font-size: var(--td-font-size-mark-small);
+  line-height: 1.4;
+}
+
+/* V8 fidelity pass: 对齐原型 app.css §Details：detail-hero 345px / padding 34px 20px 20px / h1 35px / en 19px / p 11px */
+.detail-page {
+  padding-bottom: calc(131rpx + env(safe-area-inset-bottom));
+}
+
+.detail-hero {
+  min-height: 663rpx;
+  padding: 65rpx 38rpx 38rpx;
+  background: linear-gradient(120deg, #f3dfc2, #ead0aa);
+}
+
+[data-mode="cocktail"] .detail-hero {
+  background: linear-gradient(120deg, #0c0908, #1b0c0d);
+}
+
+.detail-hero-img {
+  inset: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.detail-hero::after {
+  display: none;
+}
+
+.detail-hero-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(255, 239, 211, .98) 0%, rgba(255, 239, 211, .91) 39%, rgba(255, 239, 211, .35) 63%, rgba(255, 239, 211, .03) 100%);
+}
+
+[data-mode="cocktail"] .detail-hero-mask {
+  background: linear-gradient(90deg, rgba(8, 7, 6, .96) 0%, rgba(8, 7, 6, .83) 42%, rgba(8, 7, 6, .30) 68%, rgba(8, 7, 6, .03) 100%);
+}
+
+.detail-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: 58%;
+  padding: 0;
+}
+
+.detail-name {
+  margin: 0;
+  font-size: 67rpx;
+  font-weight: 500;
+}
+
+.detail-en {
+  margin-top: 4rpx;
+  font-size: 37rpx;
+}
+
+.detail-desc {
+  margin: 38rpx 0 27rpx;
+  font-size: 21rpx;
+  line-height: 1.75;
+}
+
+.detail-fav {
+  top: 35rpx;
+  right: 35rpx;
+  width: 65rpx;
+  height: 65rpx;
+  background: var(--surface-a86);
+  z-index: 3;
+}
+
+.detail-content {
+  padding: 0 31rpx;
+}
+
+.detail-grid {
+  gap: 19rpx;
+  margin-top: -81rpx;
+}
+
+.info-card,
+.step-card {
+  border-radius: 42rpx;
+  background: var(--xx-surface);
+  box-shadow: var(--xx-card-shadow);
+}
+
+.info-card {
+  padding: 29rpx;
+}
+
+.step-card {
+  margin-top: 19rpx;
+  padding: 27rpx;
+}
+
+.ingredient-row {
+  padding: 15rpx 0;
+}
+
+.step-row {
+  min-height: 73rpx;
+  font-size: 17rpx;
+}
+
+.similar-scroll {
+  width: calc(100% + var(--xx-page-gutter));
+  padding-right: var(--xx-page-gutter);
+}
+
+@media (max-width: 370px) {
+  .detail-hero-copy {
+    width: 58%;
+    min-height: 500rpx;
+    padding-top: 45rpx;
+  }
+
+  .detail-hero {
+    min-height: 500rpx;
+  }
+}

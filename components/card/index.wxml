@@ -1,0 +1,4 @@
+<!-- 卡片容器：--td-bg-color-container + --td-radius-medium -->
+<view class="card {{shadow ? 'card-shadow' : ''}} {{padded ? 'card-padded' : ''}}">
+  <slot></slot>
+</view>

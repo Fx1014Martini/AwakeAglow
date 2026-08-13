@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "xx-mode-switch": "/components/xx-mode-switch/index",
+    "xx-drink-card": "/components/xx-drink-card/index",
+    "app-toast": "/components/toast/index"
+  },
+  "navigationBarTitleText": "醒醺",
+  "disableScroll": false
+}

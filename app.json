@@ -1,0 +1,83 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/menu/index",
+    "pages/favorites/index",
+    "pages/profile/index",
+    "pages/age-gate/index"
+  ],
+  "subPackages": [
+    {
+      "root": "pkgDetail",
+      "name": "pkgDetail",
+      "pages": ["index"]
+    },
+    {
+      "root": "pkgCompare",
+      "name": "pkgCompare",
+      "pages": ["index"]
+    },
+    {
+      "root": "pkgExplore",
+      "name": "pkgExplore",
+      "pages": ["discover/index", "encyclopedia/index"]
+    }
+  ],
+  "preloadRule": {
+    "pages/home/index": {
+      "network": "all",
+      "packages": ["pkgDetail", "pkgExplore"]
+    },
+    "pages/menu/index": {
+      "network": "all",
+      "packages": ["pkgDetail", "pkgCompare"]
+    }
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "醒醺",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F2E9",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#8C7A69",
+    "selectedColor": "#9C6118",
+    "backgroundColor": "#FFFDF9",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "assets/tabbar/home-muted.png",
+        "selectedIconPath": "assets/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/menu/index",
+        "text": "菜单",
+        "iconPath": "assets/tabbar/menu-muted.png",
+        "selectedIconPath": "assets/tabbar/menu-active.png"
+      },
+      {
+        "pagePath": "pages/favorites/index",
+        "text": "收藏",
+        "iconPath": "assets/tabbar/heart-muted.png",
+        "selectedIconPath": "assets/tabbar/heart-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/user-muted.png",
+        "selectedIconPath": "assets/tabbar/user-active.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "custom-tab-bar": "/custom-tab-bar/index"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

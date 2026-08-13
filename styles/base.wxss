@@ -1,0 +1,73 @@
+/**
+ * base.wxss — 全局 reset 与基础排版（T2）。
+ * 继承 xingxun-responsive-prototype/styles/base.css，适配小程序运行时。
+ * 注意：微信 WXSS 不支持 `*` 通配符选择器，故逐类声明 box-sizing。
+ */
+page {
+  min-height: 100%;
+  font-family: var(--font-sans);
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: var(--text, var(--coffee-text));
+  background-color: var(--bg, var(--coffee-bg));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+view,
+text,
+image,
+button,
+input,
+textarea,
+scroll-view,
+cover-view {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+button,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+image {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+[hidden],
+.is-hidden {
+  display: none !important;
+}
+
+/* 屏幕阅读器专用：视觉隐藏但保留可访问性 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

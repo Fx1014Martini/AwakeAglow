@@ -1,0 +1,20 @@
+<!-- 自定义底部导航：4 列等宽，130rpx + safe-area，对齐原型 #tabBar -->
+<view class="tabbar theme-{{mode}}">
+  <view
+    class="tabbar-item {{selected === index ? 'is-active' : ''}}"
+    wx:for="{{tabs}}"
+    wx:key="key"
+    data-index="{{index}}"
+    bindtap="onTap"
+    hover-class="is-tap"
+    aria-role="button"
+    aria-label="{{item.text}}"
+  >
+    <image
+      class="tabbar-icon"
+      src="/assets/tabbar/{{item.icon}}-{{selected === index ? 'active' : 'muted'}}.png"
+      mode="aspectFit"
+    />
+    <text class="tabbar-text">{{item.text}}</text>
+  </view>
+</view>

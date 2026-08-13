@@ -1,0 +1,48 @@
+/**
+ * 全局样式入口。
+ * 主题定义见 themes.wxss（--xx-* + --td-* 双主题），公共工具类见 global.wxss。
+ * 页面只 import 本文件即可获得全部样式基座。
+ */
+@import "/styles/tokens.wxss";
+@import "/styles/td-variables.wxss";
+@import "/styles/themes.wxss";
+@import "/styles/global.wxss";
+
+/* 页面布局类（对齐原型 .page/.page-root） */
+.page-root {
+  min-height: 0;
+}
+
+.page {
+  min-height: 100%;
+  overscroll-behavior: contain;
+  padding: 0 var(--xx-page-gutter) calc(130rpx + env(safe-area-inset-bottom));
+}
+
+.page::-webkit-scrollbar {
+  display: none;
+}
+
+/* 页面边距断点（对齐原型 ADAPTIVE：≤370px 边距 12px→23rpx，默认 20px→38rpx） */
+@media (max-width: 370px) {
+  .page {
+    padding-left: 23rpx;
+    padding-right: 23rpx;
+  }
+}
+
+/* 直接落在页面树中的导航和模式切换：避免跨组件样式隔离导致的视觉缺失。 */
+.visual-nav { height:132rpx; padding:38rpx var(--xx-page-gutter) 12rpx; display:flex; align-items:center; justify-content:space-between; }
+.visual-nav__side { width:76rpx; height:62rpx; }
+.visual-nav__logo { width:188rpx; height:62rpx; }
+.visual-nav__more { width:76rpx; height:54rpx; display:flex; align-items:center; justify-content:center; border:1rpx solid var(--xx-border); border-radius:30rpx; color:var(--xx-text); font-size:25rpx; letter-spacing:3rpx; }
+.visual-mode-switch { position:relative; width:500rpx; max-width:100%; height:88rpx; margin:8rpx auto 0; padding:4rpx; border-radius:27rpx; display:flex; border:1rpx solid var(--xx-border); background:var(--surface-muted-a72, rgba(245,234,220,.72)); overflow:hidden; }
+.theme-cocktail.visual-mode-switch { background:rgba(33,25,22,.72); border-color:rgba(212,167,91,.28); }
+.visual-mode-switch__thumb { position:absolute; left:4rpx; top:4rpx; width:calc(50% - 4rpx); height:78rpx; border-radius:20rpx; background:linear-gradient(100deg,#f7dca4,#f2c970); box-shadow:0 7rpx 22rpx rgba(123,75,18,.13), inset 0 0 0 1rpx rgba(191,124,27,.2); transition:transform var(--xx-motion-normal) var(--xx-ease); }
+.theme-cocktail .visual-mode-switch__thumb { background:linear-gradient(105deg,rgba(85,23,30,.88),rgba(130,38,49,.94)); box-shadow:0 8rpx 24rpx rgba(107,22,36,.34), inset 0 0 0 1rpx rgba(212,167,91,.38); }
+.visual-mode-switch__thumb.is-right { transform:translateX(100%); }
+.visual-mode-switch__item { position:relative; z-index:1; flex:1; display:flex; align-items:center; justify-content:center; gap:11rpx; color:var(--xx-text2); font-size:25rpx; }
+.visual-mode-switch__item image { width:31rpx; height:31rpx; }
+.visual-mode-switch__item.is-active { color:var(--xx-text); font-weight:700; }
+.theme-coffee .visual-mode-switch__item.is-active { color:#4b2c11; }
+.theme-cocktail .visual-mode-switch__item.is-active { color:#f3dfba; }

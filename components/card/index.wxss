@@ -1,0 +1,16 @@
+@import "../../styles/tokens.wxss";
+@import "../../styles/td-variables.wxss";
+
+.card {
+  background: var(--td-bg-color-container);
+  border: 1px solid var(--td-border-color);
+  border-radius: var(--td-radius-medium);
+}
+
+.card-shadow {
+  box-shadow: var(--td-shadow-1);
+}
+
+.card-padded {
+  padding: var(--space-24);
+}

@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "brand-header": "/components/brand-header/index",
+    "app-icon": "/components/icon/index"
+  }
+}

@@ -1,0 +1,64 @@
+/**
+ * td-variables.css — TDesign 变量子集映射（T2）。
+ * 参考 TDesign 微信小程序变量约定（--td-*）。
+ * 因双主题动态切换，品牌色/文本色/页面底色等以 var(--td-*) 语义别名存在，
+ * 由 app.wxss 中 page 的 data-mode 选择器将两组值分别映射到咖啡/鸡尾酒 token。
+ * 此处仅提供 page 默认（咖啡暖纸）与变量契约；主题覆盖在 app.wxss 完成。
+ */
+page {
+  /* 品牌色 */
+  --td-brand-color: var(--coffee-primary);
+  --td-brand-color-light: var(--coffee-primary-2);
+  --td-brand-color-focus: rgba(156, 97, 24, .2);
+  --td-brand-color-active: var(--coffee-accent);
+  --td-brand-color-gradient: linear-gradient(120deg, var(--coffee-primary), var(--coffee-primary-2));
+
+  /* 功能色 */
+  --td-success-color: var(--success);
+  --td-warning-color: #d5a34e;
+  --td-error-color: var(--danger);
+  --td-error-color-bg: rgba(169, 59, 59, .12);
+
+  /* 中性色 / 背景 / 文本 */
+  --td-bg-color-page: var(--coffee-bg);
+  --td-bg-color-container: var(--coffee-surface-strong);
+  --td-bg-color-container-hover: var(--coffee-surface-muted);
+  --td-bg-color-secondarycontainer: var(--coffee-surface-muted);
+  --td-bg-color-component: var(--coffee-surface);
+  --td-bg-color-component-hover: var(--coffee-surface-muted);
+  --td-bg-color-component-disabled: var(--coffee-surface-muted);
+  --td-bg-color-container-active: var(--coffee-surface-muted);
+  --td-text-color-primary: var(--coffee-text);
+  --td-text-color-secondary: var(--coffee-text-2);
+  --td-text-color-placeholder: var(--coffee-text-2);
+  --td-text-color-disabled: rgba(52, 34, 22, .3);
+  --td-text-color-link: var(--coffee-primary);
+  --td-text-color-anti: var(--coffee-surface-strong);
+  --td-text-color-brand: var(--coffee-primary);
+  --td-border-color: var(--coffee-border);
+  --td-border-level-1-color: var(--coffee-border);
+  --td-border-level-2-color: var(--coffee-border);
+
+  /* 圆角 */
+  --td-radius-small: var(--radius-sm);
+  --td-radius-medium: var(--radius-md);
+  --td-radius-large: var(--radius-lg);
+  --td-radius-extraLarge: var(--radius-xl);
+  --td-radius-round: var(--radius-pill);
+  --td-radius-default: var(--radius-md);
+
+  /* 字号 */
+  --td-font-size-body-extra-large: 34rpx;
+  --td-font-size-body-large: 30rpx;
+  --td-font-size-body-medium: 28rpx;
+  --td-font-size-body-small: 26rpx;
+  --td-font-size-body-extra-small: 24rpx;
+  --td-font-size-mark-medium: 22rpx;
+  --td-font-size-mark-small: 20rpx;
+  --td-font-family: var(--font-sans);
+
+  /* 阴影 */
+  --td-shadow-1: var(--coffee-shadow-soft);
+  --td-shadow-2: var(--coffee-shadow);
+  --td-shadow-3: 0 34px 80px rgba(0, 0, 0, .42);
+}

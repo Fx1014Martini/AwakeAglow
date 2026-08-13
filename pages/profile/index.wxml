@@ -1,0 +1,57 @@
+<view class="page-root theme-{{mode}}" data-mode="{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{false}}" />
+  <xx-mode-switch mode="{{mode}}" bind:change="onSwitchMode" />
+  <view class="page page-enter profile-page">
+    <view class="profile-hero surface-card">
+      <view class="profile-avatar serif">{{avatarText}}</view>
+      <view class="profile-main">
+        <view><text class="serif">{{profile.displayName || 'Awakener'}}</text><text class="profile-badge">醒醺品鉴家</text><text class="profile-chevron">›</text></view>
+        <text>{{mode === 'coffee' ? '清醒属于你，一杯刚刚好。' : '夜晚属于你，微醺刚刚好。'}}</text>
+        <view class="tags"><text wx:for="{{preferenceTags}}" wx:key="*this" wx:if="{{index < 4}}" class="tag">{{item}}</text></view>
+      </view>
+    </view>
+    <view class="profile-stats">
+      <view><text class="number">{{stats.favorites}}</text><text>收藏</text></view>
+      <view><text class="number">{{stats.history}}</text><text>最近浏览</text></view>
+      <view><text class="number">{{stats.preferenceTags}}</text><text>偏好标签</text></view>
+    </view>
+
+    <view class="profile-section surface-card">
+      <view class="profile-section__head"><text class="serif">我的收藏 ✦</text><view hover-class="is-tap" bindtap="onOpenFavorites">查看全部 ›</view></view>
+      <scroll-view wx:if="{{favoritePreview.length}}" scroll-x enable-flex show-scrollbar="{{false}}" class="profile-scroll"><view class="profile-scroll__inner"><xx-drink-card wx:for="{{favoritePreview}}" wx:key="id" item="{{item}}" mode="{{mode}}" variant="compact" favorite="{{true}}" bind:open="onDrinkOpen" bind:favorite="onDrinkFavorite" /></view></scroll-view>
+      <view wx:else class="profile-inline-empty">还没有收藏，去首页发现第一杯。</view>
+    </view>
+
+    <view class="profile-columns">
+      <view class="surface-card profile-panel">
+        <view class="profile-panel__head"><text class="serif">最近浏览</text><text>›</text></view>
+        <view hover-class="is-tap" wx:for="{{history}}" wx:key="id" class="history-row" data-id="{{item.id}}" bindtap="onOpenDetail"><image src="{{item.imageUrl}}" mode="aspectFill"/><view><text>{{item.nameZh}}</text><text class="latin">{{item.nameEn}}</text></view><text>›</text></view>
+        <text wx:if="{{!history.length}}" class="profile-inline-empty">暂无浏览记录</text>
+      </view>
+      <view class="surface-card profile-panel">
+        <view class="profile-panel__head"><text class="serif">我的偏好筛选</text><view hover-class="is-tap" bindtap="onEditPreferences">编辑</view></view>
+        <view class="preference-list"><view wx:for="{{preferenceTags}}" wx:key="*this"><text>{{index === 0 ? '口感' : index === 1 ? '风格' : index === 2 ? '甜苦' : '偏好'}}</text><text>{{item}}</text></view></view>
+        <text wx:if="{{!preferenceTags.length}}" class="profile-inline-empty">暂无偏好标签</text>
+      </view>
+    </view>
+
+    <view class="section-head profile-recommend-head"><view><text class="section-head__title serif">当前模式精选 ✦</text></view><view hover-class="is-tap" class="section-head__action" bindtap="onRefreshRecommendation">换一批 ↻</view></view>
+    <xx-drink-card wx:if="{{recommendCard}}" item="{{recommendCard}}" mode="{{mode}}" variant="hero-secondary" favorite="{{false}}" bind:open="onDrinkOpen" />
+
+    <view class="overlay-scrim {{preferencesPanelVisible ? 'is-visible' : ''}}" hover-class="is-tap" bindtap="onClosePreferences" wx:if="{{preferencesPanelVisible}}"></view>
+    <view class="preferences-panel {{preferencesPanelVisible ? 'panel-open' : ''}}" wx:if="{{preferencesPanelVisible}}">
+      <view class="panel-head"><view><view class="panel-title">编辑{{mode === 'coffee' ? '咖啡' : '鸡尾酒'}}偏好</view><view class="panel-subtitle">选择你愿意尝试的条件，可多选</view></view><view class="panel-close" hover-class="is-tap" bindtap="onClosePreferences"><app-icon name="close" size="{{34}}" mode="{{mode}}" /></view></view>
+      <scroll-view class="preferences-scroll" scroll-y="true"><view wx:for="{{preferenceGroups}}" wx:key="key" class="preference-group"><view class="preference-group-title">{{item.label}}</view><view class="preference-options"><view wx:for="{{item.options}}" wx:for-item="option" wx:key="value" class="preference-option {{option.selected ? 'preference-option-active' : ''}}" data-value="{{option.value}}" hover-class="is-tap" bindtap="onTogglePreference"><text wx:if="{{option.selected}}" class="preference-option-check">✓</text><text>{{option.label}}</text></view></view></view></scroll-view>
+      <view class="preferences-actions"><view class="preferences-count">已选 {{draftPreferences.length}} 项</view><view hover-class="is-tap" class="preferences-save" bindtap="onSavePreferences">{{savingPreferences ? '保存中…' : '保存偏好'}}</view></view>
+    </view>
+
+    <view class="overlay-scrim {{recommendPanelVisible ? 'is-visible' : ''}}" hover-class="is-tap" bindtap="onCloseRecommend" wx:if="{{recommendPanelVisible}}"></view>
+    <view class="recommend-panel {{recommendPanelVisible ? 'panel-open' : ''}}" wx:if="{{recommendPanelVisible}}">
+      <view class="panel-head"><view class="panel-title">这杯更适合现在的你</view><view class="panel-close" hover-class="is-tap" bindtap="onCloseRecommend"><app-icon name="close" size="{{34}}" mode="{{mode}}" /></view></view>
+      <view class="panel-body"><image class="panel-photo" src="{{recommendation.drink.imageUrl}}" mode="aspectFill"/><view class="panel-copy"><view class="panel-drink-name">{{recommendation.drink.nameZh}}</view><view class="panel-drink-en">{{recommendation.drink.nameEn}}</view><view class="panel-drink-intro">{{recommendation.drink.intro}}</view></view></view>
+      <view class="reason-list"><view wx:for="{{recommendation.reasons}}" wx:key="*this" class="reason-item"><text class="reason-index">0{{index + 1}}</text><text class="reason-text">{{item}}</text></view></view>
+      <view class="panel-actions"><view hover-class="is-tap" class="panel-btn panel-btn-secondary" bindtap="onRecommendAgain">换一杯</view><view hover-class="is-tap" class="panel-btn panel-btn-primary" bindtap="onOpenRecommendDetail">查看详情</view></view>
+    </view>
+  </view>
+  <app-toast id="profileToast" show="{{toastVisible}}" content="{{toastContent}}" bind:hide="onToastHide" />
+</view>

@@ -1,0 +1,41 @@
+<!-- 知识百科页：咖啡/鸡尾酒知识分类入口 -->
+<view class="page-shell theme-{{mode}}" data-mode="{{mode}}">
+  <brand-header mode="{{mode}}" show-back="{{true}}" />
+  <view class="page page-enter encyclopedia-page">
+    <view class="encyclopedia-intro">
+      <text class="eyebrow">KNOWLEDGE · 百科</text>
+      <view class="encyclopedia-title">懂一点，选得更好</view>
+    </view>
+    <view class="category-list">
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="category-card {{item.mode === 'cocktail' ? 'cat-cocktail' : 'cat-coffee'}}"
+        data-id="{{item.id}}"
+        bindtap="onCategoryTap"
+        hover-class="is-tap"
+      >
+        <view class="category-body">
+          <view class="category-title">{{item.title}}</view>
+          <text class="category-desc">{{item.desc}}</text>
+        </view>
+        <text class="category-arrow">›</text>
+      </view>
+    </view>
+    <view wx:if="{{article}}" class="article-panel">
+      <view class="article-head">
+        <view>
+          <view class="article-title">{{article.title}}</view>
+          <text class="article-lead">{{article.lead}}</text>
+        </view>
+        <view class="article-close" hover-class="is-tap" bindtap="onCloseArticle">×</view>
+      </view>
+      <view class="article-points">
+        <view wx:for="{{article.points}}" wx:key="*this" class="article-point">
+          <text class="point-index">0{{index + 1}}</text>
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

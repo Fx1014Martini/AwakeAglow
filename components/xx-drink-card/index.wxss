@@ -1,0 +1,188 @@
+/* xx-drink-card：对齐原型 app.css result-card + favorite-card，1px≈1.923rpx */
+
+/* ---------- 基础（hero / hero-secondary 用覆盖图风格） ---------- */
+.drink-card { position:relative; border:1rpx solid var(--xx-border); background:var(--xx-surface); border-radius:var(--xx-radius-lg); overflow:hidden; box-shadow:var(--xx-card-shadow); transition:transform var(--xx-motion-fast) var(--xx-ease); }
+.drink-card:active { transform:scale(.992); }
+.drink-card__image { width:100%; height:100%; }
+.drink-card__overlay { position:absolute; top:0;right:0;bottom:0;left:0; background:linear-gradient(90deg,rgba(12,8,5,.82) 0%,rgba(16,9,5,.54) 43%,rgba(18,10,6,.05) 76%); }
+.theme-coffee .drink-card__overlay { background:linear-gradient(90deg,rgba(255,242,217,.96) 0%,rgba(255,242,217,.83) 42%,rgba(255,242,217,.16) 71%,rgba(255,242,217,.02) 100%); }
+.drink-card__content { position:absolute; left:32rpx; top:29rpx; right:38%; bottom:27rpx; display:flex; flex-direction:column; align-items:flex-start; color:#f7e7cb; }
+.theme-coffee .drink-card__content { color:#382315; }
+.drink-card__badge { padding:7rpx 14rpx; margin-bottom:18rpx; border-radius:999rpx; background:rgba(255,253,245,.78); color:#9a621c; font-size:18rpx; border:1rpx solid rgba(170,104,20,.12); display:flex; align-items:center; gap:7rpx; }
+.drink-card__badge image { width:22rpx; height:22rpx; }
+.theme-cocktail .drink-card__badge { color:#efc978; background:rgba(104,24,35,.54); border-color:rgba(212,167,91,.25); }
+.drink-card__title-line { display:flex; align-items:baseline; gap:12rpx; max-width:100%; }
+.drink-card__name { font-size:48rpx; line-height:1.08; font-weight:600; letter-spacing:.4rpx; }
+.drink-card__en { margin-top:5rpx; font-size:27rpx; opacity:.88; }
+.drink-card__intro { margin-top:18rpx; font-size:22rpx; line-height:1.55; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+.drink-card__tags { margin-top:17rpx; display:flex; flex-wrap:wrap; gap:8rpx; }
+.drink-card__tags .tag { min-height:39rpx; padding:0 13rpx; color:inherit; border-color:rgba(255,236,205,.20); background:rgba(255,255,255,.08); font-size:17rpx; opacity:.92; border-radius:9rpx; }
+.theme-coffee .drink-card__tags .tag { background:rgba(255,253,249,.62); border-color:rgba(119,80,39,.13); }
+.drink-card__cta { margin-top:auto; min-width:218rpx; min-height:70rpx; padding:0 10rpx 0 29rpx; border-radius:999rpx; display:flex; align-items:center; justify-content:space-between; gap:22rpx; background:linear-gradient(110deg,#6f3508,#9b6119); color:#fff8e8; font-size:24rpx; font-weight:650; box-shadow:0 12rpx 28rpx rgba(83,45,8,.18); }
+.theme-cocktail .drink-card__cta { color:#24150b; background:linear-gradient(105deg,#d8ad62,#f0ca7d); }
+.drink-card__cta-arrow { width:44rpx; height:44rpx; border-radius:50%; padding:8rpx; box-sizing:border-box; background:rgba(255,253,244,.9); }
+.drink-card__favorite { position:absolute; right:21rpx; bottom:21rpx; width:66rpx; height:66rpx; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(28,18,12,.50); border:1rpx solid rgba(255,240,210,.30); }
+.drink-card__favorite image { width:33rpx; height:33rpx; }
+.drink-card__favorite.is-active { background:rgba(255,248,230,.94); }
+.drink-card__compare { position:absolute; right:94rpx; bottom:25rpx; min-height:55rpx; padding:0 17rpx; border-radius:999rpx; color:#fff5df; background:rgba(22,15,10,.48); border:1rpx solid rgba(255,255,255,.22); font-size:20rpx; }
+.drink-card__compare.is-selected { color:var(--xx-on-primary); background:var(--xx-primary); border-color:var(--xx-primary); }
+
+/* hero 变体 */
+.drink-card.hero { height:474rpx; }
+.drink-card.hero .drink-card__image { object-position:center; }
+.drink-card.hero-secondary { height:382rpx; }
+.drink-card.hero-secondary .drink-card__content { top:52rpx; bottom:34rpx; right:43%; }
+.drink-card.hero-secondary .drink-card__name { font-size:43rpx; }
+.drink-card.hero-secondary .drink-card__intro { margin-top:18rpx; }
+
+/* ---------- list 变体（对齐原型 result-card 三列 grid） ---------- */
+/* 原型：grid-template-columns:112px minmax(0,1fr) 54px; gap:12px; min-height:120px; padding:10px; */
+.drink-card.list {
+  display: grid;
+  grid-template-columns: 215rpx minmax(0, 1fr) 104rpx;
+  gap: 23rpx;
+  align-items: center;
+  min-height: 231rpx;
+  padding: 19rpx;
+  border-radius: 27rpx;
+  box-shadow: 0 10rpx 30rpx rgba(68,41,17,.065);
+}
+.theme-cocktail .drink-card.list { box-shadow: 0 14rpx 36rpx rgba(0,0,0,.27); }
+
+/* 左列：图片（原型 112×100 + border-radius:14px） */
+.drink-card.list .drink-card__photo {
+  width: 215rpx;
+  height: 192rpx;
+  object-fit: cover;
+  border-radius: 27rpx;
+  background: var(--xx-surface-muted);
+}
+
+/* 中列：文字（原型 h3 19px serif + .en 11px latin + p 9px + .tags） */
+.drink-card.list .drink-card__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.drink-card.list .drink-card__title-line {
+  gap: 8rpx;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.drink-card.list .drink-card__name {
+  font-size: 37rpx;
+  font-weight: 500;
+}
+.drink-card.list .drink-card__en {
+  margin-top: 0;
+  font-size: 21rpx;
+  color: var(--xx-text2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drink-card.list .drink-card__intro {
+  margin-top: 12rpx;
+  color: var(--xx-text2);
+  font-size: 17rpx;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+}
+.drink-card.list .drink-card__tags {
+  margin-top: 10rpx;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.drink-card.list .drink-card__tags .tag {
+  flex: none;
+  color: var(--xx-text2);
+  background: var(--xx-surface-muted);
+  border-color: var(--xx-border);
+  font-size: 16rpx;
+}
+
+/* 右列：评分 + 收藏按钮（原型 .result-score + .favorite-button） */
+/* 原型：result-score 推荐指数 span 8px + strong 21px；favorite-button 34px 圆形 */
+.drink-card.list .drink-card__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+.drink-card.list .drink-card__score {
+  display: grid;
+  justify-items: center;
+  gap: 4rpx;
+  color: var(--xx-primary);
+}
+.drink-card.list .drink-card__score > text:first-child {
+  font-size: 15rpx;
+  color: var(--xx-text2);
+}
+.drink-card.list .drink-card__score .number {
+  font-family: var(--xx-font-number);
+  font-size: 40rpx;
+  font-weight: 700;
+}
+.drink-card.list .drink-card__favorite {
+  position: static;
+  width: 65rpx;
+  height: 65rpx;
+  border-radius: 50%;
+  border: 1rpx solid var(--xx-border);
+  background: var(--xx-surface-strong);
+  color: var(--xx-text2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drink-card.list .drink-card__favorite.is-active {
+  color: #bb535e;
+  background: rgba(145,40,51,.12);
+}
+.drink-card.list .drink-card__favorite image { width: 29rpx; height: 29rpx; }
+.drink-card.list .drink-card__compare {
+  position: static;
+  min-height: 48rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  color: var(--xx-primary);
+  background: var(--xx-surface-muted);
+  border: 1rpx solid var(--xx-border);
+  font-size: 17rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drink-card.list .drink-card__compare.is-selected {
+  color: var(--xx-on-primary);
+  background: var(--xx-primary);
+  border-color: var(--xx-primary);
+}
+
+/* ---------- compact 变体（横滑小卡，对齐原型 favorite-card） ---------- */
+.drink-card.compact { width:218rpx; min-height:292rpx; border-radius:23rpx; }
+.drink-card.compact .drink-card__image { height:174rpx; }
+.drink-card.compact .drink-card__overlay { top:92rpx; background:linear-gradient(180deg,transparent,var(--xx-surface) 50%); }
+.drink-card.compact .drink-card__content { left:17rpx; top:180rpx; right:15rpx; bottom:14rpx; color:var(--xx-text); }
+.drink-card.compact .drink-card__name { font-size:25rpx; }
+.drink-card.compact .drink-card__en { font-size:16rpx; color:var(--xx-text2); }
+.drink-card.compact .drink-card__intro,
+.drink-card.compact .drink-card__tags,
+.drink-card.compact .drink-card__score,
+.drink-card.compact .drink-card__compare { display:none; }
+.drink-card.compact .drink-card__favorite { width:50rpx; height:50rpx; right:12rpx; top:12rpx; bottom:auto; }
+.drink-card.compact .drink-card__favorite image { width:27rpx; height:27rpx; }
+
+/* 窄屏适配 */
+@media (max-width: 360px) {
+  .drink-card.list {
+    grid-template-columns: 185rpx minmax(0, 1fr) 96rpx;
+    gap: 17rpx;
+    padding: 17rpx;
+  }
+  .drink-card.list .drink-card__photo { width: 185rpx; height: 165rpx; }
+  .drink-card.list .drink-card__name { font-size: 33rpx; }
+  .drink-card.hero { height: 452rpx; }
+  .drink-card__content { right: 35%; }
+  .drink-card__intro { font-size: 20rpx; }
+}

@@ -1,0 +1,15 @@
+<!-- 分段 Tab（详情页四 Tab 用），active 下划线。点击触发 change -->
+<view class="tabs" role="tablist">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tab {{activeIndex === index ? 'tab-active' : ''}}"
+    data-index="{{index}}"
+    bindtap="onTabTap"
+    aria-role="tab"
+    aria-selected="{{activeIndex === index}}"
+  >
+    <text class="tab-label">{{item.label}}</text>
+    <view wx:if="{{activeIndex === index}}" class="tab-underline"></view>
+  </view>
+</view>

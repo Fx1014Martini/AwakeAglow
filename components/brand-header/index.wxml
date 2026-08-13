@@ -1,0 +1,37 @@
+<!-- 品牌顶部栏：状态栏占位 + 返回/Logo/更多（对齐原型 app-header） -->
+<view class="bh-spacer" style="height:{{statusBarHeight + 60}}px"></view>
+<view class="bh" style="padding-top:{{statusBarHeight}}px">
+  <view class="bh-bar">
+    <view class="bh-btn {{showBack ? '' : 'bh-hidden'}}" bindtap="onBack" aria-role="button" aria-label="返回">
+      <app-icon name="back" size="38" mode="{{mode}}" />
+    </view>
+    <view class="bh-logo" bindtap="onHome" aria-role="button" aria-label="返回首页">
+      <brand-logo width="{{235}}" mode="{{mode}}" />
+    </view>
+    <view class="bh-btn bh-btn--more" bindtap="onMore" aria-role="button" aria-label="更多">
+      <text>•••</text>
+    </view>
+  </view>
+</view>
+
+<!-- 全局控制台（PAGE-SPEC §7：切换 Mock/API、清理本地状态、OpenAPI） -->
+<view class="bh-scrim" wx:if="{{devOpen}}" bindtap="onCloseDev"></view>
+<view class="bh-panel" wx:if="{{devOpen}}">
+  <view class="bh-panel-head">
+    <view class="bh-panel-title">原型控制台</view>
+    <view class="bh-panel-close" bindtap="onCloseDev" aria-role="button" aria-label="关闭">
+      <app-icon name="close" size="34" mode="{{mode}}" />
+    </view>
+  </view>
+  <view class="bh-ds-label">数据源</view>
+  <view class="bh-ds-options">
+    <view class="bh-ds {{pickSource === 'mock' ? 'bh-ds-active' : ''}}" bindtap="onPickMock" aria-role="button">Mock 离线数据</view>
+    <view class="bh-ds {{pickSource === 'api' ? 'bh-ds-active' : ''}}" bindtap="onPickApi" aria-role="button">Real API</view>
+  </view>
+  <text class="bh-lead">选择后刷新页面。当前数据源：{{source === 'mock' ? 'MOCK' : 'API'}}。</text>
+  <view class="bh-actions">
+    <view class="bh-btn-primary" bindtap="onApplySource" aria-role="button">应用并刷新</view>
+    <view class="bh-btn-secondary" bindtap="onResetState" aria-role="button">清除本地状态</view>
+    <view class="bh-btn-secondary" bindtap="onOpenApiDoc" aria-role="button">查看 OpenAPI</view>
+  </view>
+</view>

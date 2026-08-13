@@ -1,0 +1,13 @@
+<!-- 主/次按钮（TDesign 变量自建）。基于 --td-brand-color-gradient / --td-bg-color-container -->
+<button
+  class="btn btn-{{type}} {{block ? 'btn-block' : ''}} {{disabled ? 'btn-disabled' : ''}} {{loading ? 'btn-loading' : ''}}"
+  disabled="{{disabled}}"
+  hover-class="btn-hover"
+  hover-stay-time="80"
+  bindtap="onTap"
+  aria-role="button"
+  aria-disabled="{{disabled || loading}}"
+>
+  <text wx:if="{{loading}}" class="btn-spinner" aria-hidden="true"></text>
+  <slot></slot>
+</button>

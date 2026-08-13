@@ -1,0 +1,8 @@
+.xx-nav { position:relative; z-index:20; color:var(--xx-text); }
+.xx-nav__content { position:relative; display:flex; align-items:center; justify-content:space-between; padding:0 var(--xx-page-gutter); }
+.xx-nav__logo { position:absolute; left:50%; top:52%; transform:translate(-50%,-50%); width:178rpx; height:66rpx; }
+.xx-nav__title { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:34rpx; font-weight:600; white-space:nowrap; }
+.xx-nav__back { width:66rpx; height:66rpx; display:flex; align-items:center; justify-content:center; border-radius:50%; z-index:2; }
+.xx-nav__back:active { background:var(--xx-surface-muted); }
+.xx-nav__back image { width:34rpx; height:34rpx; }
+.xx-nav__side { width:66rpx; height:66rpx; }

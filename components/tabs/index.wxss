@@ -1,0 +1,38 @@
+@import "../../styles/tokens.wxss";
+@import "../../styles/td-variables.wxss";
+
+.tabs {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--td-border-color);
+  background: var(--td-bg-color-container);
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-height: 84rpx;
+  padding: 0 var(--space-16);
+  color: var(--td-text-color-secondary);
+  font-size: 21rpx;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.tab-active {
+  color: var(--td-text-color-primary);
+  font-weight: 600;
+  background: var(--primary-a12);
+}
+
+.tab-underline {
+  position: absolute;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 0;
+  height: 6rpx;
+  border-radius: var(--td-radius-round);
+  background: var(--td-brand-color);
+}

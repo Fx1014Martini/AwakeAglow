@@ -1,0 +1,11 @@
+<view class="xx-nav theme-{{mode}}" style="height:{{navigationHeight}}px;padding-top:{{statusBarHeight}}px;">
+  <view class="xx-nav__content" style="height:{{contentHeight}}px;">
+    <button wx:if="{{showBack}}" class="xx-nav__back tap-target" bindtap="onBack" aria-label="返回">
+      <image src="/assets/icons/back-{{mode}}.png" mode="aspectFit" />
+    </button>
+    <view wx:else class="xx-nav__side"></view>
+    <image wx:if="{{showLogo}}" class="xx-nav__logo" src="/assets/logo/logo-{{mode}}.png" mode="aspectFit" />
+    <text wx:else class="xx-nav__title serif">{{title}}</text>
+    <view class="xx-nav__side"></view>
+  </view>
+</view>
