@@ -14,8 +14,8 @@ export const APP_CONFIG: AppConfig = {
   cloudAppid: 'wx36fbc06d56aa520b',
   // 云托管服务名（container.config.json 中的 service name）
   cloudService: 'awakeaglow-bff',
-  // 云托管公网访问域名（HTTPS 直连；需在小程序后台配 request 合法域名）
-  apiBaseUrl: 'https://flask-8rcf-296365-11-1467877005.sh.run.tcloudbase.com/api/v1',
+  // 自定义域名（HTTPS 直连；需在小程序后台配 request 合法域名）
+  apiBaseUrl: 'https://awakeaglow.asia/api/v1',
   timeoutMs: 10000,
   requestHeaders: {
     'Content-Type': 'application/json',
