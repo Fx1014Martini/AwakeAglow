@@ -1,5 +1,6 @@
 """SQLAlchemy ORM 模型（对齐 schema.sql 7 表）。"""
-from sqlalchemy import Column, String, Integer, Float, Text, MediumText, SmallInteger, Index
+from sqlalchemy import Column, String, Integer, Float, Text, SmallInteger, Index
+from sqlalchemy.dialects.mysql import MEDIUMTEXT
 from app.db import Base
 
 
@@ -28,7 +29,7 @@ class Drink(Base):
     source_level = Column(String(4), nullable=False, default="B")
     updated_at = Column(String(16), nullable=False)
     reviewed = Column(SmallInteger, nullable=False, default=1)
-    card_json = Column(MediumText, nullable=False)
+    card_json = Column(MEDIUMTEXT, nullable=False)
 
 
 class Taxonomy(Base):

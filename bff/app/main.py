@@ -2,7 +2,7 @@
 
 FastAPI + SQLAlchemy + MySQL，容器化部署到微信云托管。
 基础路径 /api/v1，端口 80（云托管要求）。
-小程序通过 wx.cloud.callContainer 调用（走微信专线，免域名备案）。
+小程序通过 HTTPS 直连公网域名调用（wx.request）。
 """
 import logging
 from fastapi import FastAPI, Request
