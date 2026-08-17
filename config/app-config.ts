@@ -14,8 +14,8 @@ export const APP_CONFIG: AppConfig = {
   dataSource: 'api',
   // 传输方式：true=callContainer（免备案），false=HTTPS 直连（需配白名单）
   useCallContainer: true,
-  // 云托管环境 ID（在云托管控制台 -> 服务列表 -> 环境信息中查看）
-  cloudEnv: 'awakeaglow-prod',
+  // 云托管环境 ID（控制台 -> 服务列表 -> 环境信息中的 envId，不是别名）
+  cloudEnv: 'prod-d4g8sgw6o56106448',
   cloudAppid: 'wx36fbc06d56aa520b',
   // 云托管服务名（控制台 -> 服务列表中的服务名）
   cloudService: 'flask-8rcf',
