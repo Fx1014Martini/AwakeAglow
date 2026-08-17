@@ -72,6 +72,9 @@ export function createService(override?: DataSource | string | null): AppService
     apiBaseUrl: APP_CONFIG.apiBaseUrl,
     timeoutMs: APP_CONFIG.timeoutMs,
     requestHeaders: APP_CONFIG.requestHeaders,
+    useCallContainer: APP_CONFIG.useCallContainer,
+    cloudEnv: APP_CONFIG.cloudEnv,
+    cloudService: APP_CONFIG.cloudService,
   })
 }
 

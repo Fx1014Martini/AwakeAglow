@@ -1,6 +1,10 @@
 /**
  * HTTP 客户端（微信云托管版）。
- * 走 HTTPS 直连（wx.request / fetch），apiBaseUrl 为云托管公网域名。
+ *
+ * 两种传输方式（由 useCallContainer 开关控制）：
+ * - callContainer：走微信云托管专线，免域名备案、免白名单（推荐，体验版/正式版必备）
+ * - HTTPS 直连：走 wx.request / fetch，apiBaseUrl 为云托管公网域名（开发调试用）
+ *
  * 信封解包：code!=='0' 抛错。
  */
 
@@ -16,6 +20,11 @@ export interface HttpClientConfig {
   apiBaseUrl?: string
   timeoutMs?: number
   requestHeaders?: Record<string, string>
+  useCallContainer?: boolean
+  cloudEnv?: string
+  cloudService?: string
+  /** callContainer 路径前缀（如 /api/v1）；HTTPS 直连模式下从 apiBaseUrl 解析。 */
+  apiPrefix?: string
 }
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
@@ -25,11 +34,25 @@ export class HttpClient {
   private baseUrl: string
   private timeoutMs: number
   private headers: Record<string, string>
+  private useCallContainer: boolean
+  private cloudEnv: string
+  private cloudService: string
+  private apiPrefix: string
 
   constructor(config: HttpClientConfig = {}) {
     this.baseUrl = String(config.apiBaseUrl || '').replace(/\/+$/, '')
     this.timeoutMs = config.timeoutMs || 10000
     this.headers = config.requestHeaders || {}
+    this.useCallContainer = !!config.useCallContainer
+    this.cloudEnv = String(config.cloudEnv || '')
+    this.cloudService = String(config.cloudService || '')
+    // 优先用显式传入的 apiPrefix；否则从 apiBaseUrl 解析（去掉协议+域名后的路径部分）
+    if (config.apiPrefix) {
+      this.apiPrefix = config.apiPrefix.replace(/\/+$/, '')
+    } else {
+      const m = this.baseUrl.match(/^https?:\/\/[^/]+(\/.*)?$/)
+      this.apiPrefix = m && m[1] ? m[1].replace(/\/+$/, '') : ''
+    }
   }
 
   async request<T = unknown>(path: string, options: { method?: HttpMethod; body?: unknown } = {}): Promise<T> {
@@ -82,8 +105,52 @@ export class HttpClient {
   }
 
   private async transport(path: string, method: HttpMethod, body?: unknown): Promise<any> {
+    // 优先级：callContainer（wx 环境）> fetch（Node 测试）> wx.request（兜底）
+    if (this.useCallContainer && typeof wx !== 'undefined' && wx.cloud && typeof wx.cloud.callContainer === 'function') {
+      return this.transportCallContainer(path, method, body)
+    }
     if (typeof fetch === 'function') return this.transportFetch(path, method, body)
     return this.transportWx(path, method, body)
+  }
+
+  private transportCallContainer(path: string, method: HttpMethod, body: unknown): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let settled = false
+      const timer = setTimeout(() => {
+        if (settled) return
+        settled = true
+        const err = new Error('请求超时') as ApiClientError
+        err.code = 'REQUEST_TIMEOUT'
+        reject(err)
+      }, this.timeoutMs)
+      // callContainer 的 path 是服务内完整路径（如 /api/v1/bootstrap）
+      const fullPath = `${this.apiPrefix}${path}`
+      wx.cloud.callContainer({
+        config: { env: this.cloudEnv },
+        service: this.cloudService,
+        path: fullPath,
+        method: method as never,
+        header: { 'Content-Type': 'application/json', ...this.headers },
+        data: body as never,
+        success: (res: any) => {
+          if (settled) return
+          settled = true
+          clearTimeout(timer)
+          const headers: Record<string, string> = {}
+          Object.entries(res.header || {}).forEach(([k, v]) => { headers[k.toLowerCase()] = String(v) })
+          resolve({ status: res.statusCode, headers, body: res.data })
+        },
+        fail: (err: any) => {
+          if (settled) return
+          settled = true
+          clearTimeout(timer)
+          const e = new Error(err?.errMsg || '云托管调用失败') as ApiClientError
+          e.code = 'CALL_CONTAINER_ERROR'
+          e.details = err
+          reject(e)
+        },
+      })
+    })
   }
 
   private async transportFetch(path: string, method: HttpMethod, body: unknown): Promise<any> {
