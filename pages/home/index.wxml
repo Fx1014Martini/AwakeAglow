@@ -36,7 +36,7 @@
       <text class="empty-desc">数据加载失败，请检查网络后重试</text>
     </view>
     <block wx:else>
-      <xx-drink-card item="{{featured}}" mode="{{mode}}" variant="hero" ctaText="推荐这杯 →" bind:cta="onRecommendThis" />
+      <xx-drink-card item="{{featured}}" mode="{{mode}}" variant="hero" ctaText="推荐这杯 →" bind:cta="onRecommendThis" bind:open="onOpenDetail" bind:favorite="onToggleFavorite" />
       <view class="section-head">
         <view class="section-head__main">
           <view class="section-head__title serif">{{secondTitle}}</view>

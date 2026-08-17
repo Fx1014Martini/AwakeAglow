@@ -65,7 +65,8 @@ const STORAGE_KEY = 'awakeaglow:v6:miniprogram:store:v1'
 
 const DEFAULT_COMPARE_IDS: CompareIds = {
   coffee: ['coffee-oat-latte', 'coffee-cold-brew'],
-  cocktail: ['cocktail-cosmopolitan', 'cocktail-mojito'],
+  // cosmopolitan 不在 V6 数据库中，改用存在的经典组合（negroni vs mojito）
+  cocktail: ['cocktail-negroni', 'cocktail-mojito'],
 }
 
 const initialState: AppState = {
@@ -266,9 +267,14 @@ export class Store {
     if (!this._state.ageConfirmed) this.set({ ageConfirmed: true })
   }
 
-  /** 当前是否需要成年门禁：仅鸡尾酒领域且尚未确认 */
-  needsAgeGate(): boolean {
-    return !this._state.ageConfirmed
+  /**
+   * 当前是否需要成年门禁：目标模式为鸡尾酒且尚未确认。
+   * @param mode 目标领域（缺省取当前 state.mode）。注意：从 coffee 切往 cocktail 时
+   *   必须显式传 'cocktail'（此时 store.mode 仍是 coffee），guardCocktailEntry 的
+   *   调用方均已自行判 mode，此参数用于显式表达意图。
+   */
+  needsAgeGate(mode: StoreMode = this._state.mode): boolean {
+    return mode === 'cocktail' && !this._state.ageConfirmed
   }
 
   /** 写入待触发的首页推荐场景（运行时字段，不持久化） */

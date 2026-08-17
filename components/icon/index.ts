@@ -33,7 +33,7 @@ Component({
   methods: {
     resolveSrc(): string {
       const { name, mode } = this.properties
-      const variant = mode === 'cocktail' ? 'cocktail' : mode === 'coffee' ? 'coffee' : 'muted'
+      const variant = mode === 'cocktail' || mode === 'coffee' || mode === 'white' ? mode : 'muted'
       return `/assets/icons/${name}-${variant}.png`
     },
   },

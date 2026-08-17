@@ -46,6 +46,8 @@ interface CompareData {
 
 interface CompareCustom {
   unsubscribe: (() => void) | null
+  /** loadCompare 请求序号：过期响应丢弃（订阅回调与 getCompareRows 回调并发触发） */
+  requestSeq: number
   loadCompare(): Promise<void>
   buildRows(): CompareRow[]
   onOpenDetail(e: WechatMiniprogram.TouchEvent): void
@@ -71,6 +73,7 @@ Page<CompareData, CompareCustom>({
   },
 
   unsubscribe: null,
+  requestSeq: 0,
 
   onLoad(query: Record<string, string | undefined>) {
     this.unsubscribe = store.subscribe(() => {
@@ -80,9 +83,17 @@ Page<CompareData, CompareCustom>({
     })
     const s = store.get()
     this.setData({ mode: s.mode === 'cocktail' ? 'cocktail' : 'coffee' })
-    // 支持从菜单结果卡带参进入：?left=..&right=..
-    const leftId = query?.left ? decodeURIComponent(query.left) : ''
-    const rightId = query?.right ? decodeURIComponent(query.right) : ''
+    // 支持从菜单结果卡带参进入：?left=..&right=..（畸形编码兜底原样使用）
+    const safeDecode = (value?: string) => {
+      if (!value) return ''
+      try {
+        return decodeURIComponent(value)
+      } catch {
+        return value
+      }
+    }
+    const leftId = safeDecode(query?.left)
+    const rightId = safeDecode(query?.right)
     // 深链 cocktail 对比的成年门禁
     if (isCocktailDrinkId(leftId) || isCocktailDrinkId(rightId)) {
       store.switchMode('cocktail')
@@ -112,6 +123,7 @@ Page<CompareData, CompareCustom>({
   // ---------- 数据 ----------
 
   async loadCompare() {
+    const requestId = ++this.requestSeq
     const s = store.get()
     const mode: CompareMode = s.mode === 'cocktail' ? 'cocktail' : 'coffee'
     const pair = s.compareIds[mode]
@@ -124,6 +136,7 @@ Page<CompareData, CompareCustom>({
     this.setData({ mode, loading: true })
     try {
       const res = await service.compare({ drinkIds: ids })
+      if (requestId !== this.requestSeq) return // 过期响应丢弃
       const items: DrinkDetail[] = Array.isArray(res?.items) ? res.items : []
       const left = items[0] || null
       const right = items[1] || null
@@ -144,6 +157,7 @@ Page<CompareData, CompareCustom>({
       })
       this.buildRows()
     } catch (error) {
+      if (requestId !== this.requestSeq) return
       this.setData({ loading: false, left: null, right: null, rows: [], conclusionLeftTitle: '', conclusionRightTitle: '' })
       this.showToast((error as Error)?.message || '对比加载失败，请稍后重试')
     }

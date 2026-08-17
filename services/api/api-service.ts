@@ -29,12 +29,10 @@ const LOCAL_IMAGE_BY_ID: Record<string, string> = {
   'coffee-flat-white': '/assets/images/flat-white.webp',
   'coffee-cold-brew': '/assets/images/cold-brew.webp',
   'coffee-pour-over': '/assets/images/pour-over.jpg',
-  'cocktail-cosmopolitan': '/assets/images/cosmopolitan.webp',
   'cocktail-manhattan': '/assets/images/manhattan.webp',
   'cocktail-mojito': '/assets/images/mojito.webp',
   'cocktail-margarita': '/assets/images/margarita.webp',
-  'cocktail-whisky-sour': '/assets/images/whisky-sour.webp',
-  'cocktail-gin-tonic': '/assets/images/gin-tonic.jpg',
+  'cocktail-whiskey-sour': '/assets/images/whisky-sour.webp',
 }
 
 const LOCAL_POSTER_BY_ID: Record<string, string> = {
@@ -46,24 +44,14 @@ const LOCAL_POSTER_BY_ID: Record<string, string> = {
   'coffee-cappuccino': '/assets/images/posters/coffee-cappuccino-hero.webp',
   'coffee-americano': '/assets/images/posters/coffee-americano-hero.webp',
   'coffee-espresso': '/assets/images/posters/coffee-espresso-hero.webp',
-  'coffee-coconut-dirty': '/assets/images/posters/coffee-coconut-dirty-hero.webp',
-  'coffee-cream-dirty': '/assets/images/posters/coffee-cream-dirty-hero.webp',
-  'coffee-decaf-latte': '/assets/images/posters/coffee-decaf-latte-hero.webp',
-  'coffee-orange-coldbrew': '/assets/images/posters/coffee-orange-coldbrew-hero.webp',
   'coffee-coconut-latte': '/assets/images/posters/coffee-coconut-latte-hero.webp',
-  'cocktail-cosmopolitan': '/assets/images/posters/cocktail-cosmopolitan-hero.webp',
   'cocktail-mojito': '/assets/images/posters/cocktail-mojito-hero.webp',
-  'cocktail-gin-tonic': '/assets/images/posters/cocktail-gin-tonic-hero.webp',
   'cocktail-margarita': '/assets/images/posters/cocktail-margarita-hero.webp',
   'cocktail-manhattan': '/assets/images/posters/cocktail-manhattan-hero.webp',
-  'cocktail-whisky-sour': '/assets/images/posters/cocktail-whisky-sour-hero.webp',
-  'cocktail-basil-paloma': '/assets/images/posters/cocktail-basil-paloma-hero.webp',
+  'cocktail-whiskey-sour': '/assets/images/posters/cocktail-whiskey-sour-hero.webp',
   'cocktail-negroni': '/assets/images/posters/cocktail-negroni-hero.webp',
   'cocktail-espresso-martini': '/assets/images/posters/cocktail-espresso-martini-hero.webp',
-  'cocktail-hot-toddy': '/assets/images/posters/cocktail-hot-toddy-hero.webp',
-  'cocktail-zero-gin-tonic': '/assets/images/posters/cocktail-zero-gin-tonic-hero.webp',
-  'cocktail-ginger-mule': '/assets/images/posters/cocktail-ginger-mule-hero.webp',
-  'cocktail-french75': '/assets/images/posters/cocktail-french75-hero.webp',
+  'cocktail-french-75': '/assets/images/posters/cocktail-french75-hero.webp',
 }
 
 /**
@@ -262,16 +250,11 @@ export class RealService {
   }
 
   private async fetchDrinks(params: ListDrinksQuery): Promise<DrinkPage> {
-    const filters = Object.fromEntries(Object.entries(params.filters || {}).map(([key, rule]) => [
-      key,
-      key === 'milk'
-        ? { want: (rule.want || []).map((value) => value === '牛奶' ? '含乳' : value), exclude: (rule.exclude || []).map((value) => value === '牛奶' ? '含乳' : value) }
-        : rule,
-    ]))
+    // filters 的 want/exclude 为固定字典值（菜单展示值），BFF 统一映射到数据库 attributes 值域
     const data = await this.http.get<any>('/drinks', {
       mode: params.mode,
       keyword: params.keyword || undefined,
-      filters: Object.keys(filters).length ? JSON.stringify(filters) : undefined,
+      filters: params.filters && Object.keys(params.filters).length ? JSON.stringify(params.filters) : undefined,
       sort: params.sort || 'recommendation',
       page: params.page || 1,
       pageSize: Math.min(params.pageSize || 20, 100),

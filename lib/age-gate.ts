@@ -18,7 +18,8 @@ export const AGE_GATE_PAGE = '/pages/age-gate/index'
  * @param returnUrl 可选：确认后门禁页 redirectTo 回该地址（深链场景用，需已 encodeURIComponent）
  */
 export function guardCocktailEntry(returnUrl?: string): boolean {
-  if (!store.needsAgeGate()) return false
+  // 守卫目标恒为鸡尾酒领域（含从 coffee 切往 cocktail：此时 store.mode 仍是 coffee）
+  if (!store.needsAgeGate('cocktail')) return false
   const query = returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ''
   wx.navigateTo({
     url: `${AGE_GATE_PAGE}${query}`,

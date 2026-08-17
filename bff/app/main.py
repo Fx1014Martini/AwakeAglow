@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.api import drinks as drinks_api
+from app.api import extras as extras_api
 from app.api import me as me_api
 from app.response import ApiError, error, new_request_id
 import time
@@ -21,13 +22,15 @@ app = FastAPI(title="醒醺 BFF", version="1.0.0", docs_url="/docs")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    # 通配符 origin 与 credentials 不兼容（浏览器会拒绝）；小程序 wx.request 不走 CORS，无需 cookie
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(drinks_api.router, prefix="/api/v1", tags=["drinks"])
 app.include_router(me_api.router, prefix="/api/v1", tags=["me"])
+app.include_router(extras_api.router, prefix="/api/v1", tags=["extras"])
 
 
 @app.middleware("http")

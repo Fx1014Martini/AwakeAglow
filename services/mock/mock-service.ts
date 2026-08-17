@@ -100,7 +100,12 @@ export class MockService {
         return { item, score: item.recommendationScore + sceneBonus }
       })
       .sort((a, b) => b.score - a.score)
-    const item = ranked[0]?.item || candidates[0]
+    if (!ranked.length) throw Object.assign(new Error('暂无匹配推荐'), { code: 'DRINK_NOT_FOUND', status: 404 })
+    const top = ranked.slice(0, Math.min(3, ranked.length))
+    const total = top.reduce((sum, x) => sum + Math.max(1, x.score), 0)
+    let rnd = Math.random() * total
+    const pick = top.find(x => { rnd -= Math.max(1, x.score); return rnd <= 0 }) || top[0]
+    const item = pick.item
     return {
       drink: clone(item),
       reasons: [`推荐指数 ${item.recommendationScore}%`, `与“${scene || '当前状态'}”更接近`, `风味标签：${item.tags.slice(0, 3).join('、')}`],

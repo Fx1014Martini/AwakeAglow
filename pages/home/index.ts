@@ -185,8 +185,8 @@ Page<HomeData, HomeCustom>({
   pickFeatured() {
     const mode = store.get().mode
     const list = (this.drinks || []).filter((d) => (d.category === 'COCKTAIL' ? 'cocktail' : 'coffee') === mode)
-    const found = list[0] || this.data.featured
-    return this.withFavorite(found, store.get().favorites)
+    // 当前模式无数据返回 null（WXML 走空态），不回退上一模式数据避免跨模式串显
+    return list[0] ? this.withFavorite(list[0], store.get().favorites) : null
   },
 
   pickSecond() {
@@ -247,6 +247,9 @@ Page<HomeData, HomeCustom>({
         store.setKeyword(kw)
         this.goMenu(kw)
       }, 220)
+    } else {
+      // 清空输入时同步清关键词，避免残留旧关键词继续过滤菜单
+      store.setKeyword('')
     }
   },
 
@@ -321,7 +324,7 @@ Page<HomeData, HomeCustom>({
     const drink = this.data.recommend?.drink
     if (!drink) return
     this.setData({ recommendPanelVisible: false })
-    wx.navigateTo({ url: `/pkgDetail/index?id=${drink.id}` })
+    wx.navigateTo({ url: `/pkgDetail/index?id=${encodeURIComponent(drink.id)}` })
   },
 
   // ---------- 收藏 ----------

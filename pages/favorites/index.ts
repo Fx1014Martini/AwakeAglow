@@ -75,11 +75,15 @@ Page<FavoritesData, FavoritesCustom>({
     const state = store.get()
     const mode = state.mode
     this.setData({ mode, loading: true })
-    this.fetchAllModeDrinks(mode)
-      .then((all) => {
-        const favIds = new Set(state.favorites)
-        const favorites = all.filter((d) => favIds.has(d.id)).map((d) => ({ ...d, favorite: true }))
-        const suggestions = all.filter((d) => !favIds.has(d.id)).slice(0, 3)
+    const favIds = new Set(state.favorites)
+    // 收藏详情按 id 精准拉取；「猜你喜欢」用当前模式列表前几款未收藏的
+    Promise.all([
+      this.fetchAllModeDrinks(mode),
+      this.service.listDrinks({ mode, page: 1, pageSize: 100 }).catch(() => ({ items: [] as DrinkSummary[] })),
+    ])
+      .then(([favDrinks, page]) => {
+        const favorites = favDrinks.map((d) => ({ ...d, favorite: true }))
+        const suggestions = (page.items || []).filter((d) => !favIds.has(d.id)).slice(0, 3)
         this.setData({ favorites, suggestions, loading: false })
       })
       .catch(() => {

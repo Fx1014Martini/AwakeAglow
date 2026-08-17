@@ -95,7 +95,6 @@ interface MenuCustom {
   onTriFilter(e: WechatMiniprogram.TouchEvent): void
   onResetFilters(): void
   onToggleSort(): void
-  onOpenDetail(e: WechatMiniprogram.TouchEvent): void
   onToggleFavorite(e: WechatMiniprogram.TouchEvent): Promise<void>
   onDrinkOpen(e: WechatMiniprogram.CustomEvent): void
   onDrinkFavorite(e: WechatMiniprogram.CustomEvent): Promise<void>
@@ -135,7 +134,12 @@ Page<MenuData, MenuCustom>({
   onLoad(query: Record<string, string | undefined>) {
     this.unsubscribe = store.subscribe(() => this.syncFromStore())
     this.syncFromStore()
-    const kw = query?.keyword ? decodeURIComponent(query.keyword) : ''
+    let kw = ''
+    try {
+      kw = query?.keyword ? decodeURIComponent(query.keyword) : ''
+    } catch {
+      kw = query?.keyword || ''
+    }
     if (kw) {
       store.setKeyword(kw)
       this.setData({ keyword: kw })
@@ -305,7 +309,7 @@ Page<MenuData, MenuCustom>({
    * coffee: coffeeType/milk/sweetBitter/temperature/caffeine
    * cocktail: baseSpirit/cocktailType/flavor/abv/extra
    * 而 bootstrap taxonomies 沿用 server menus.json 分类键（type/milk/sweet_bitter/temperature/caffeine
-   * 与 base/type/flavor/abv/ingredient），故此处建立菜单分类 → 卡片属性键的映射。
+   * 与 base/type/flavor/abv/ingredient），故此处建立菜单分类 -> 卡片属性键的映射。
    */
   excludeAttributeValue(drink: DrinkSummary, key: string, option: string): boolean {
     const MENU_KEY_TO_ATTR: Record<string, string> = {
@@ -415,12 +419,6 @@ Page<MenuData, MenuCustom>({
     if (store.get().mode === mode) return
     if (mode === 'cocktail' && guardCocktailEntry()) return
     store.switchMode(mode as MenuMode)
-  },
-
-  onOpenDetail(e: WechatMiniprogram.TouchEvent) {
-    const id = e.currentTarget.dataset.id as string
-    if (!id) return
-    wx.navigateTo({ url: `/pkgDetail/index?id=${id}` })
   },
 
   onDrinkOpen(e: WechatMiniprogram.CustomEvent) {

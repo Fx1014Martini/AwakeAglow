@@ -1,7 +1,7 @@
 /**
  * HTTP 客户端（微信云托管版）。
  * 走 HTTPS 直连（wx.request / fetch），apiBaseUrl 为云托管公网域名。
- * 信封解包：code!=='0' 抛错。ETag/304 缓存。
+ * 信封解包：code!=='0' 抛错。
  */
 
 export interface ApiClientError extends Error {
@@ -27,7 +27,7 @@ export class HttpClient {
   private headers: Record<string, string>
 
   constructor(config: HttpClientConfig = {}) {
-    this.baseUrl = String(config.apiBaseUrl || '').replace(/\/$/, '')
+    this.baseUrl = String(config.apiBaseUrl || '').replace(/\/+$/, '')
     this.timeoutMs = config.timeoutMs || 10000
     this.headers = config.requestHeaders || {}
   }

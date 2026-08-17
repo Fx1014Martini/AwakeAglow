@@ -26,10 +26,11 @@ const DETAIL_TABS: Array<{ key: DetailTabKey; label: string }> = [
   { key: 'similar', label: '相似' },
 ]
 
-/** 当前模式默认产品 id（对齐原型 app.js:39 modeDefaultDetail），无 id 时兜底 */
+/** 当前模式默认产品 id（对齐原型 app.js:39 modeDefaultDetail），无 id 时兜底（须存在于数据库） */
 const DEFAULT_DETAIL_ID: Record<DetailMode, string> = {
   coffee: 'coffee-oat-latte',
-  cocktail: 'cocktail-cosmopolitan',
+  // cosmopolitan 不在 V6 数据库中，改用存在的经典款
+  cocktail: 'cocktail-mojito',
 }
 
 interface RenderIngredient {
@@ -115,7 +116,12 @@ Page<DetailData, DetailCustom>({
       mode: s.mode === 'cocktail' ? 'cocktail' : 'coffee',
       activeTab: s.detailTab || 'overview',
     })
-    const id = query?.id ? decodeURIComponent(query.id) : ''
+    let id = ''
+    try {
+      id = query?.id ? decodeURIComponent(query.id) : ''
+    } catch {
+      id = query?.id || ''
+    }
     // 深链 cocktail 详情：切模式 + 成年门禁
     if (isCocktailDrinkId(id)) {
       store.switchMode('cocktail')
@@ -155,6 +161,12 @@ Page<DetailData, DetailCustom>({
         loading: false,
       })
       service.addHistory(id).catch(() => undefined)
+      // 浏览历史联动我的页：置顶去重写回 store.profile.history（BFF 在 GET detail 时已落库）
+      const profile = store.get().profile
+      if (profile) {
+        const history = [id, ...(profile.history || []).filter((x) => x !== id)].slice(0, 50)
+        store.setProfile({ ...profile, history })
+      }
       // 主题跟随全局 mode：详情加载完成后同步一次导航栏颜色
       applyPageTheme(this)
     } catch (error) {

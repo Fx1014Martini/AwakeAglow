@@ -20,7 +20,8 @@ Component({
   observers: {
     'show, visible'(show: boolean, visible: boolean) {
       if (show && !visible) {
-        // 外部置 show=true 时入场
+        // 外部置 show=true 时入场，并启动自动关闭定时器（属性驱动路径与 open() 同语义）
+        this.scheduleClose()
         this.setData({ visible: true })
       }
     },
@@ -43,12 +44,18 @@ Component({
     },
 
     open() {
-      if (this.data.timer) {
-        clearTimeout(this.data.timer)
-      }
       this.setData({ visible: true })
       // 下一帧再置 show，保证 hidden -> 显式的过渡生效
       this.setData({ show: true })
+      this.scheduleClose()
+    },
+
+    /** 启动自动关闭定时器（duration<=0 表示不自动关闭） */
+    scheduleClose() {
+      if (this.data.timer) {
+        clearTimeout(this.data.timer)
+        this.data.timer = null
+      }
       const duration = Number(this.properties.duration) || 0
       if (duration > 0) {
         this.data.timer = setTimeout(() => this.close(), duration)

@@ -286,7 +286,7 @@ Page<ProfileData, ProfileCustom>({
   },
 
   async onDrinkFavorite(e: WechatMiniprogram.CustomEvent) {
-    const id = e.currentTarget?.dataset?.id as string
+    const id = (e.detail?.id || e.currentTarget?.dataset?.id) as string
     if (!id) return
     const result = await store.toggleFavoriteLocal(id)
     this.showToast(result.ok ? (result.favorite ? '已收藏' : '已取消收藏') : '收藏操作失败')

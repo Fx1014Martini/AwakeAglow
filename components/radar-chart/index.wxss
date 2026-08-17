@@ -5,6 +5,7 @@
   width: 100%;
 }
 .radar-canvas {
+  /* 尺寸由 size 属性经 style 内联控制（坐标计算与画布尺寸必须一致），
+     不能再用 max-width 截断，否则雷达图右下被裁剪 */
   display: block;
-  max-width: 420rpx;
 }

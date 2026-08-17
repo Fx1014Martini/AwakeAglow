@@ -14,7 +14,7 @@
     <view class="drink-card__aside">
       <view class="drink-card__score">
         <text>推荐指数</text>
-        <text class="number">{{item.matchPercent || item.score || 0}}</text>
+        <text class="number">{{item.recommendationScore || 0}}</text>
       </view>
       <view class="drink-card__favorite {{favorite ? 'is-active' : ''}}" catchtap="onFavorite" hover-class="is-tap">
         <app-icon name="heart" size="{{29}}" mode="{{favorite ? mode : 'muted'}}" />
@@ -38,7 +38,7 @@
       <view class="drink-card__tags" wx:if="{{item.tags && item.tags.length}}">
         <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:if="{{index < 5}}">{{item}}</text>
       </view>
-      <view wx:if="{{variant === 'hero' || variant === 'hero-secondary'}}" class="drink-card__cta" wx:if="{{ctaText}}" catchtap="onCta" hover-class="is-tap">
+      <view wx:if="{{ctaText && (variant === 'hero' || variant === 'hero-secondary')}}" class="drink-card__cta" catchtap="onCta" hover-class="is-tap">
         <text>{{ctaText}}</text>
         <view class="drink-card__cta-arrow">→</view>
       </view>
