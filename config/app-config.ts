@@ -15,7 +15,7 @@ export const APP_CONFIG: AppConfig = {
   // 云托管服务名（container.config.json 中的 service name）
   cloudService: 'awakeaglow-bff',
   // 自定义域名（HTTPS 直连；需在小程序后台配 request 合法域名）
-  apiBaseUrl: 'https://awakeaglow.asia/api/v1',
+  apiBaseUrl: 'https://cfx.woofcloud.com/api/v1',
   timeoutMs: 10000,
   requestHeaders: {
     'Content-Type': 'application/json',

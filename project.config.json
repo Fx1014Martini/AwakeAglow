@@ -46,9 +46,11 @@
   },
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "dir", "value": "bff" }
+    ],
     "include": []
   },
   "cloudfunctionRoot": "",
-  "cloudbaseRoot": "bff/"
+  "cloudbaseRoot": ""
 }

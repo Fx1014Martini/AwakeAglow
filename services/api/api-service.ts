@@ -55,25 +55,30 @@ const LOCAL_POSTER_BY_ID: Record<string, string> = {
 }
 
 /**
- * Wikimedia 原图可能是 .tif/.tiff（微信 <image> 不支持 TIFF，wikimedia thumb 对部分 TIFF 也 400）。
- * 转 BFF 图片代理（下载转 jpg 缓存）：{apiBaseUrl}/images/thumb?url=<原图 URL>。
- * 非 wikimedia .tif 原样返回；无 baseUrl 时放弃转换（避免生成无效 URL）。
+ * Wikimedia Special:Redirect 是 301 跳转页，微信 <image> 不跟随重定向，回退 placeholder。
+ * Wikimedia upload 的 .tif/.tiff 原图微信 <image> 不支持，也回退 placeholder。
+ * 其他 URL 原样返回。
  */
-function normalizeImageUrl(url: string, baseUrl?: string): string {
-  if (!url || !baseUrl) return url
-  if (!/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/[0-9a-f]\/[0-9a-f]{2}\/[^/]+\.(tif|tiff)$/i.test(url)) return url
-  return `${baseUrl}/images/thumb?url=${encodeURIComponent(url)}`
+function normalizeImageUrl(url: string): string {
+  if (!url) return url
+  if (/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:Redirect\/file\//i.test(url)) {
+    return '/assets/images/placeholder.jpg'
+  }
+  if (/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/[0-9a-f]\/[0-9a-f]{2}\/[^/]+\.(tif|tiff)$/i.test(url)) {
+    return '/assets/images/placeholder.jpg'
+  }
+  return url
 }
 
-function imageUrl(value: unknown, id?: string, baseUrl?: string): string {
-  return LOCAL_IMAGE_BY_ID[id || ''] || normalizeImageUrl(String(value || '/assets/images/placeholder.jpg'), baseUrl)
+function imageUrl(value: unknown, id?: string): string {
+  return LOCAL_IMAGE_BY_ID[id || ''] || normalizeImageUrl(String(value || '/assets/images/placeholder.jpg'))
 }
 
-function posterUrl(value: unknown, id?: string, baseUrl?: string): string {
-  return LOCAL_POSTER_BY_ID[id || ''] || imageUrl(value, id, baseUrl)
+function posterUrl(value: unknown, id?: string): string {
+  return LOCAL_POSTER_BY_ID[id || ''] || imageUrl(value, id)
 }
 
-function toSummary(raw: any, fallbackMode?: 'coffee' | 'cocktail', baseUrl?: string): DrinkSummary {
+function toSummary(raw: any, fallbackMode?: 'coffee' | 'cocktail'): DrinkSummary {
   const mode = raw?.mode === 'cocktail' || fallbackMode === 'cocktail' ? 'cocktail' : 'coffee'
   const attributes = { ...(raw?.attributes || {}) } as Record<string, string | string[]>
   // BFF 保留“含乳”作为数据事实；小程序菜单的用户语言是“牛奶”，在适配层统一。
@@ -85,8 +90,8 @@ function toSummary(raw: any, fallbackMode?: 'coffee' | 'cocktail', baseUrl?: str
     nameZh: String(raw?.nameZh || raw?.name_zh || ''),
     nameEn: String(raw?.nameEn || raw?.name_en || ''),
     intro: String(raw?.intro || raw?.summary || ''),
-    imageUrl: imageUrl(raw?.imageUrl || raw?.image_url, String(raw?.id || raw?.code || ''), baseUrl),
-    posterUrl: posterUrl(raw?.posterUrl || raw?.poster_url, String(raw?.id || raw?.code || ''), baseUrl),
+    imageUrl: imageUrl(raw?.imageUrl || raw?.image_url, String(raw?.id || raw?.code || '')),
+    posterUrl: posterUrl(raw?.posterUrl || raw?.poster_url, String(raw?.id || raw?.code || '')),
     tags: Array.isArray(raw?.tags) ? raw.tags.map((tag: any) => String(tag?.label || tag?.name_zh || tag)).filter(Boolean) : [],
     scene: Array.isArray(raw?.scene) ? raw.scene.map(String) : [],
     recommendationScore: Number(raw?.recommendationScore ?? raw?.recommendation_score ?? 0),
@@ -94,8 +99,8 @@ function toSummary(raw: any, fallbackMode?: 'coffee' | 'cocktail', baseUrl?: str
   }
 }
 
-function toDetail(raw: any, fallbackMode?: 'coffee' | 'cocktail', baseUrl?: string): DrinkDetail {
-  const summary = toSummary(raw, fallbackMode, baseUrl)
+function toDetail(raw: any, fallbackMode?: 'coffee' | 'cocktail'): DrinkDetail {
+  const summary = toSummary(raw, fallbackMode)
   const ingredients = Array.isArray(raw?.ingredients)
     ? raw.ingredients.map((item: any) => ({
         nameZh: String(item?.nameZh || item?.name_zh || ''),
@@ -108,14 +113,14 @@ function toDetail(raw: any, fallbackMode?: 'coffee' | 'cocktail', baseUrl?: stri
   return {
     ...summary,
     description: String(raw?.description || summary.intro),
-    posterUrl: posterUrl(raw?.posterUrl || raw?.poster_url || summary.imageUrl, summary.id, baseUrl),
+    posterUrl: posterUrl(raw?.posterUrl || raw?.poster_url || summary.imageUrl, summary.id),
     ingredients,
     steps: Array.isArray(raw?.steps) ? raw.steps.map(String) : [],
     radar: Array.isArray(raw?.radar)
       ? raw.radar.map((item: any) => ({ key: String(item?.key || item?.code || ''), label: String(item?.label || item?.name_zh || ''), score: Number(item?.score || 0) }))
       : [],
     similarIds: Array.isArray(raw?.similarIds) ? raw.similarIds.map(String) : [],
-    similar: Array.isArray(raw?.similar) ? raw.similar.map((item: any) => toSummary(item, summary.mode, baseUrl)) : [],
+    similar: Array.isArray(raw?.similar) ? raw.similar.map((item: any) => toSummary(item, summary.mode)) : [],
     sourceInfo: {
       sourceLevel: raw?.sourceInfo?.sourceLevel || 'B',
       updatedAt: String(raw?.sourceInfo?.updatedAt || ''),
@@ -143,11 +148,9 @@ function taxonomies(raw: any): Taxonomies {
 export class RealService {
   private http: HttpClient
   private searchChain: Promise<unknown> = Promise.resolve()
-  private apiBaseUrl: string
 
   constructor(config: HttpClientConfig = {}) {
     this.http = new HttpClient(config)
-    this.apiBaseUrl = (config.apiBaseUrl || '').replace(/\/+$/, '')
   }
 
   async getBootstrap(): Promise<BootstrapData> {
@@ -155,7 +158,7 @@ export class RealService {
     return {
       taxonomies: taxonomies(data?.taxonomies),
       profile: this.toProfile(data?.profile),
-      featured: Array.isArray(data?.featured) ? data.featured.map((item: any) => toSummary(item, undefined, this.apiBaseUrl)) : [],
+      featured: Array.isArray(data?.featured) ? data.featured.map((item: any) => toSummary(item, undefined)) : [],
     }
   }
 
@@ -172,7 +175,7 @@ export class RealService {
   }
 
   async getDrinkDetail(id: string): Promise<DrinkDetail> {
-    return toDetail(await this.http.get<any>(`/drinks/${encodeURIComponent(id)}`), undefined, this.apiBaseUrl)
+    return toDetail(await this.http.get<any>(`/drinks/${encodeURIComponent(id)}`), undefined)
   }
 
   async getSimilar(id: string, limit = 5): Promise<DrinkDetail[]> {
@@ -188,14 +191,14 @@ export class RealService {
       preferences: payload.preferences || [],
       excludedDrinkIds: payload.excludedDrinkIds || [],
     })
-    return { drink: toDetail(data?.drink, payload.mode, this.apiBaseUrl), reasons: Array.isArray(data?.reasons) ? data.reasons.map(String) : [] }
+    return { drink: toDetail(data?.drink, payload.mode), reasons: Array.isArray(data?.reasons) ? data.reasons.map(String) : [] }
   }
 
   async compare(payload: CompareRequest): Promise<CompareResult> {
     if (payload.drinkIds.length !== 2) throw Object.assign(new Error('对比必须选择两款饮品'), { code: 'COMPARE_REQUIRES_TWO', status: 400 })
     const data = await this.http.post<any>('/comparisons', { drinkIds: payload.drinkIds })
     return {
-      items: Array.isArray(data?.items) ? data.items.map((item: any) => toDetail(item, undefined, this.apiBaseUrl)) : [],
+      items: Array.isArray(data?.items) ? data.items.map((item: any) => toDetail(item, undefined)) : [],
       conclusion: Array.isArray(data?.conclusion) ? data.conclusion.map(String) : [],
     }
   }
@@ -259,7 +262,7 @@ export class RealService {
       page: params.page || 1,
       pageSize: Math.min(params.pageSize || 20, 100),
     })
-    const items = Array.isArray(data?.items) ? data.items.map((item: any) => toSummary(item, params.mode, this.apiBaseUrl)) : []
+    const items = Array.isArray(data?.items) ? data.items.map((item: any) => toSummary(item, params.mode)) : []
     return {
       items,
       page: Number(data?.page || params.page || 1),

@@ -5,3 +5,7 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+
+# pytest
+.pytest_cache/
+pytest-cache-files-*/

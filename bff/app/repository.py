@@ -210,9 +210,16 @@ def get_taxonomies() -> dict[str, list[dict]]:
 
 # ---------- bootstrap ----------
 
+def _summary_with_poster(r: Drink) -> dict:
+    """card_json 缓存不含 posterUrl，从数据库列补齐 imageUrl/posterUrl，与 get_detail 对齐。"""
+    card = _loads(r.card_json, {})
+    card["imageUrl"] = r.image_url
+    card["posterUrl"] = r.poster_url
+    return card
+
+
 def featured_summaries() -> list[dict]:
     """每模式取推荐分 top FEATURED_PER_MODE 款，按日期轮换（同一天稳定，每天不同）。"""
-    import random
     db = SessionLocal()
     try:
         day_seed = int(time.strftime("%Y%m%d"))  # 如 20260817
@@ -228,7 +235,7 @@ def featured_summaries() -> list[dict]:
             else:
                 offset = random.randint(0, len(pool) - FEATURED_PER_MODE)
                 selected = pool[offset:offset + FEATURED_PER_MODE]
-            out.extend(_loads(r.card_json, {}) for r in selected)
+            out.extend(_summary_with_poster(r) for r in selected)
         return out
     finally:
         db.close()
