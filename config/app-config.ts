@@ -15,7 +15,8 @@ export const APP_CONFIG: AppConfig = {
   // 云托管服务名（container.config.json 中的 service name）
   cloudService: 'awakeaglow-bff',
   // 自定义域名（HTTPS 直连；需在小程序后台配 request 合法域名）
-  apiBaseUrl: 'https://cfx.woofcloud.com/api/v1',
+  // 注：cfx.woofcloud.com 无 SSL 证书，暂用云托管默认域名
+  apiBaseUrl: 'https://flask-8rcf-296365-11-1467877005.sh.run.tcloudbase.com/api/v1',
   timeoutMs: 10000,
   requestHeaders: {
     'Content-Type': 'application/json',
